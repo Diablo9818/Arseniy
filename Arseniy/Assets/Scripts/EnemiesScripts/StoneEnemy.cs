@@ -12,9 +12,10 @@ public class StoneEnemy : Enemy
 
     [Header("----------MOVEMENT PROPERTIES----------")]
     [SerializeField] private int _stopSteps = 600; 
-    [SerializeField] private float _stopDuration = 7f; 
-    
-    
+    [SerializeField] private float _stopDuration = 7f;
+
+    private float defoldDamage = 214.4531f;
+    private float defoldHealth = 100f;
 
     private int _steps = 0; 
     private bool _isStopping = false; 
@@ -76,7 +77,9 @@ public class StoneEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            //enemySpawner.DecreaseEnemiesCount();
+            enemySpawner.DecreaseEnemiesCount(enemySpawner.golemEnemyNumber);
+            enemySpawner.GolemUnspawned();
+            enemySpawner.IncreaseEnemyPower();
             once = false;
         }
 

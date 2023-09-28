@@ -775,7 +775,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.484
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1648,7 +1648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeGun: 0
-  coins: 40
+  coins: 1743
 --- !u!212 &146452406
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9233,7 +9233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1029098708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9740,7 +9740,7 @@ GameObject:
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1095748628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9764,14 +9764,11 @@ MonoBehaviour:
   forBigMaxY: 2.97
   forSmallMinY: -0.27
   forSmallMaxY: -1.9
-  fastEnemyNumber: 1
-  flyingEnemyNumber: 2
-  shieldEnemyNumber: 3
-  golemEnemyNumber: 5
   fastEnemiesCount: 0
   flyingEnemiesCount: 0
   shieldEnemiesCount: 0
   golemEnemiesCount: 0
+  _secondsBetweenSpawn: 2
 --- !u!4 &1095748629
 Transform:
   m_ObjectHideFlags: 0
@@ -10050,7 +10047,7 @@ MonoBehaviour:
   abilityButtonUI: {fileID: 283509097}
   buttonScale: 1.3
   target: {x: 0, y: 0, z: 0}
-  projectileDamage: 13
+  projectileDamage: 50
   projectileSpeed: 8.67
   reloadTime: 0.69
   superProjectile: {fileID: 132967213884406870, guid: ce2792e8ee6a9354fb54edc915e0ceaa, type: 3}
@@ -20051,7 +20048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -360, y: 511.23523}
+  m_AnchoredPosition: {x: -70, y: 392}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1986837492

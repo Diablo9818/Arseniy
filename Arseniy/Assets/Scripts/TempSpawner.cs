@@ -2,66 +2,89 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TempSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> enemyPrefabs;
+    [SerializeField] private List<Enemy> enemyPrefabs;
     [SerializeField] private int maxEnemies;
     [SerializeField] private float spawnDelay = 2f;
     [SerializeField] private float forBigMinY = -0.27f;
     [SerializeField] private float forBigMaxY = 2.97f;    
     [SerializeField] private float forSmallMinY = -0.27f;
     [SerializeField] private float forSmallMaxY = -1.9f;
-    [SerializeField] private int fastEnemyNumber;
-    [SerializeField] private int flyingEnemyNumber;
-    [SerializeField] private int shieldEnemyNumber;
-    [SerializeField] private int golemEnemyNumber;
+    [SerializeField] public int fastEnemyNumber { get; private set; } = 1;
+    [SerializeField] public int flyingEnemyNumber { get; private set; } = 2;
+    [SerializeField] public int shieldEnemyNumber { get; private set; } = 3;
+    [SerializeField] public int golemEnemyNumber { get; private set; } = 4;
+
     [SerializeField] private int fastEnemiesCount;
     [SerializeField] private int flyingEnemiesCount;
     [SerializeField] private int shieldEnemiesCount;
     [SerializeField] private int golemEnemiesCount;
 
+    [SerializeField] private float _secondsBetweenSpawn;
+
     private int currentEnemies = 0;
-    private float nextSpawnTime = 0f;
+    private float nextSpawnTime = 10f;
+    private float _elapsedTime = 0;
+    private bool isGolemSpawned = false;
 
     private void Start()
     {
-        nextSpawnTime = Time.time + spawnDelay;
+        _elapsedTime = nextSpawnTime;
     }
 
     private void Update()
     {
-        if (currentEnemies < maxEnemies)
+        _elapsedTime += Time.deltaTime;
+
+        if (_elapsedTime >= nextSpawnTime)
         {
-            if(Time.time >= nextSpawnTime)
+            if (currentEnemies < maxEnemies)
             {
-                SpawnEnemy("Fast Enemy", forSmallMinY, forSmallMaxY, fastEnemyNumber);
-
-                if (fastEnemiesCount >= 5)
+                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && shieldEnemiesCount >= 3 && !isGolemSpawned)
                 {
-                    SpawnEnemy("FlyingEnemy", forSmallMinY, forSmallMaxY, flyingEnemyNumber);
+                    SpawnEnemy("StoneEnemy", forBigMinY, forBigMaxY);
+                    isGolemSpawned = true;
+                    currentEnemies += golemEnemyNumber;
+                    _elapsedTime = 0;
+
+                    fastEnemiesCount = 0;
+                    flyingEnemiesCount = 0;
+                    shieldEnemiesCount = 0;
                 }
 
-                if(fastEnemiesCount >= 10 && flyingEnemiesCount >= 5)
+                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && !isGolemSpawned)
                 {
-                    SpawnEnemy("Enemy With Shield", forBigMinY, forBigMaxY, shieldEnemyNumber);
+                    SpawnEnemy("Enemy With Shield", forBigMinY, forBigMaxY);
+                    currentEnemies += shieldEnemyNumber;
+                    _elapsedTime = 0;
                 }
 
-                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && shieldEnemiesCount >= 3)
+                if (fastEnemiesCount >= 5 && !isGolemSpawned)
                 {
-                    SpawnEnemy("StoneEnemy", forBigMinY, forBigMaxY, golemEnemyNumber);
+                    SpawnEnemy("FlyingEnemy", forSmallMinY, forSmallMaxY);
+                    currentEnemies += flyingEnemyNumber;
+                    _elapsedTime = 0;
                 }
 
-                nextSpawnTime = Time.time + spawnDelay;
+                if (!isGolemSpawned)
+                {
+                    SpawnEnemy("Fast Enemy", forSmallMinY, forSmallMaxY);
+                    currentEnemies += fastEnemyNumber;
+                    _elapsedTime = 0;
+                }
             }
         }
+    }
 
-        if(currentEnemies > maxEnemies)
+    public void IncreaseEnemyPower()
+    {
+        foreach (var enemy in enemyPrefabs)
         {
-            currentEnemies = maxEnemies;
+            enemy.IncreasePower();
         }
-
-        Debug.Log(currentEnemies);
     }
 
     public void KilledFastEnemiesIncrease()
@@ -69,38 +92,41 @@ public class TempSpawner : MonoBehaviour
         fastEnemiesCount++;
     }
 
+    public void GolemUnspawned()
+    {
+        isGolemSpawned = false;
+    }
+
     public void KilledFlyingEnemiesIncrease()
     {
         flyingEnemiesCount++;
-    }    
+    }
+    
     public void KilledShieldEnemiesIncrease()
     {
         shieldEnemiesCount++;
     }
 
-
-    public void DecreaseEnemiesCount()
+    public void DecreaseEnemiesCount(int enemyNumber)
     {
-        currentEnemies--;
+        currentEnemies-=enemyNumber;
     }
 
-    private void SpawnEnemy(string tag, float minY, float maxY, int enemyNumber)
+    private void SpawnEnemy(string tag, float minY, float maxY)
     {
-        GameObject fastEnemyPrefab = GetPrefabByTag(tag);
+        GameObject enemyPrefab = GetPrefabByTag(tag);
         float randomY = Random.Range(minY, maxY);
         Vector3 spawnPosition = new Vector3(transform.position.x, randomY, transform.position.z);
-        Instantiate(fastEnemyPrefab, spawnPosition, Quaternion.identity);
-
-        currentEnemies+= enemyNumber;
+        Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
     }
 
     private GameObject GetPrefabByTag(string tag)
     {
-        foreach (GameObject prefab in enemyPrefabs)
+        foreach (Enemy prefab in enemyPrefabs)
         {
             if (prefab.CompareTag(tag))
             {
-                return prefab;
+                return prefab.gameObject;
             }
         }
 
