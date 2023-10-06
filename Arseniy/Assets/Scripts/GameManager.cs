@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public bool isGameActive;
     public TextMeshProUGUI gameOverText;
-    public Button RestartButton;
-    public Button PauseButton;
+    public UnityEngine.UI.Button RestartButton;
+    public UnityEngine.UI.Button PauseButton;
     public GameObject titleScreen;
     public bool isPaused = false;
     public bool isClicked = false;

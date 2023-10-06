@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] private Button openShopButton;
+    [SerializeField] private UnityEngine.UI.Button openShopButton;
     [SerializeField] private ShopUI shopUI;
 
-    [SerializeField] private Button crossBowAbility;
-    [SerializeField] private Button firegunAbility;
-    [SerializeField] private Button mortarAbility;
+    [SerializeField] private UnityEngine.UI.Button crossBowAbility;
+    [SerializeField] private UnityEngine.UI.Button firegunAbility;
+    [SerializeField] private UnityEngine.UI.Button mortarAbility;
 
     private void Start()
     {

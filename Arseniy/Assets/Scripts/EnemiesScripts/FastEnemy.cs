@@ -28,6 +28,7 @@ public class FastEnemy : Enemy
             enemySpawner.KilledFastEnemiesIncrease();
             gameManager.UpdateScore(score);
             enemySpawner.DecreaseEnemiesCount(enemySpawner.fastEnemyNumber);
+            enemySpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

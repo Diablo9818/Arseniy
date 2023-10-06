@@ -89,6 +89,7 @@ public class ShieldEnemy : Enemy
             gameManager.UpdateScore(score);
             enemySpawner.DecreaseEnemiesCount(enemySpawner.shieldEnemyNumber);
             enemySpawner.KilledShieldEnemiesIncrease();
+            enemySpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

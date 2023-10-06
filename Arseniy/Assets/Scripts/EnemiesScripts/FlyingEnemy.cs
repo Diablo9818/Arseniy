@@ -80,6 +80,7 @@ public class FlyingEnemy : Enemy
             gameManager.UpdateScore(score);
             enemySpawner.DecreaseEnemiesCount(enemySpawner.flyingEnemyNumber);
             enemySpawner.KilledFlyingEnemiesIncrease();
+            enemySpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CrossbowAbilityButton : MonoBehaviour
 {
-    [SerializeField] private Button abilityButton;
+    [SerializeField] private UnityEngine.UI.Button abilityButton;
     [SerializeField] private Crossbow crossbow;
     private float abilityCooldown;
     private bool isCooldown;
