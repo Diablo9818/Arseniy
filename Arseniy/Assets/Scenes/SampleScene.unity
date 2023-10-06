@@ -9754,10 +9754,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 5406909853707276214, guid: 6a9564692f1d1f445af51b44117b69a5, type: 3}
-  - {fileID: 9139428957088055403, guid: 2d4640ae940a6b044a2fad6f9bd01e6f, type: 3}
-  - {fileID: 9139428957088055403, guid: 76bdefd548df5144ea14179170c1fd91, type: 3}
-  - {fileID: 5370344855728931548, guid: 457331258104cfd49a8d68828f9ab415, type: 3}
+  - {fileID: 5406909853707276217, guid: 6a9564692f1d1f445af51b44117b69a5, type: 3}
+  - {fileID: 9182409556127914240, guid: 2d4640ae940a6b044a2fad6f9bd01e6f, type: 3}
+  - {fileID: 5370344855728931549, guid: 457331258104cfd49a8d68828f9ab415, type: 3}
+  - {fileID: 1090238791194717744, guid: 76bdefd548df5144ea14179170c1fd91, type: 3}
   maxEnemies: 16
   spawnDelay: 2
   forBigMinY: -0.27
