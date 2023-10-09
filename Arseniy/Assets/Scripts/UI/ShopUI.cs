@@ -307,5 +307,6 @@ public class ShopUI : MonoBehaviour
                 //mortarDamagePrice = mortarDamageLevel4;
                 break;
         }
+        
     }
 }

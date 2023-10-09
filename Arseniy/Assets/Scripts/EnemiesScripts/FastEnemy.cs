@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class FastEnemy : Enemy
 {
-    private float defoldDamage = 3f;
-    private float defoldHealth = 25f;
-
     public override void Attack()
     {
         if (Time.time - lastAttackTime < attackCooldown)
@@ -25,9 +22,8 @@ public class FastEnemy : Enemy
 
         if (once)
         {
-            enemySpawner.KilledFastEnemiesIncrease();
             gameManager.UpdateScore(score);
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.fastEnemyNumber);
+            //enemySpawner.DecreaseEnemiesCount();
             once = false;
         }
 

@@ -10,9 +10,4 @@ public class PauseUI : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    public void ExitButton()
-    {
-        //SceneManager.LoadScene(MAIN_MENU);
-    } 
 }

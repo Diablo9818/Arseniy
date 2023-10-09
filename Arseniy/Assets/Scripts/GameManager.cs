@@ -11,13 +11,14 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
     public bool isGameActive;
-    public TextMeshProUGUI gameOverText;
+    public  TextMeshProUGUI gameOverText;
     public Button RestartButton;
     public Button PauseButton;
     public GameObject titleScreen;
     public bool isPaused = false;
     public bool isClicked = false;
     private int score;
+    public GameObject GameOverScreen;
 
     public void UpdateScore(int scoreToAdd)
     {
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         gameOverText.text = "Game over!\r\n You total score: " + score;
         isGameActive = false;
+        GameOverScreen.SetActive(true);
+
         //RestartButton.gameObject.SetActive(true);
         //PauseButton.gameObject.SetActive(false);
     }

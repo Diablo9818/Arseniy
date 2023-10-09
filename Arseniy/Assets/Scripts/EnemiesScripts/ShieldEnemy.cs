@@ -16,9 +16,6 @@ public class ShieldEnemy : Enemy
     [SerializeField] private float shieldBombDamageXAxisReduce = 0.2f;
     [SerializeField] private Shield shield;
 
-    private float defoldDamage = 13.91512f;
-    private float defoldHealth = 37.5f;
-
     private bool triggerHit = false;
 
 
@@ -36,6 +33,8 @@ public class ShieldEnemy : Enemy
                 currentDamageResist = fireDamageResist;
                 break;
         }
+
+
 
         damageReduce = armor / (armor + 400);
         actualDamage = (weaponDamage * (1 - damageReduce)) * (1 - currentDamageResist);
@@ -87,8 +86,7 @@ public class ShieldEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.shieldEnemyNumber);
-            enemySpawner.KilledShieldEnemiesIncrease();
+            //enemySpawner.DecreaseEnemiesCount();
             once = false;
         }
 

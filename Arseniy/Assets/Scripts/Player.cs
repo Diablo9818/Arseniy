@@ -62,6 +62,10 @@ public class Player : MonoBehaviour
         //Debug.Log(toThirdWeapon);
 
         DontDestroyOnLoad(gameObject);
+
+        
+
+
     }
 
     private void Update()
@@ -128,6 +132,8 @@ public class Player : MonoBehaviour
             topGunObj = bridgeObj;
 
         }
+
+        
     }
 
     public bool CheckAbility(Weapon weapon)

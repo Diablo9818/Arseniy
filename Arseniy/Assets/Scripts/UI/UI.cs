@@ -18,19 +18,6 @@ public class UI : MonoBehaviour
         Hide(crossBowAbility.gameObject);
         Hide(firegunAbility.gameObject);
         Hide(mortarAbility.gameObject);
-
-        openShopButton.onClick.AddListener(() => {
-            if (shopUI.gameObject.activeSelf) {
-                Hide(shopUI.gameObject);
-            } else {
-                Show(shopUI.gameObject);
-            }
-        });
-
-
-        shopUI.OnCrossbowAbilityBought += ShopUI_OnCrossbowAbilityBought;
-        shopUI.OnFiregunAbilityBought += ShopUI_OnFiregunAbilityBought;
-        shopUI.OnMortarAbilityBought += ShopUI_OnMortarAbilityBought;
     }
 
     private void ShopUI_OnMortarAbilityBought(object sender, System.EventArgs e)
