@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float attackCooldown = 2f;
     [SerializeField]  protected int score;
     [SerializeField] protected GameManager gameManager;
-    [SerializeField] protected TempSpawner enemySpawner;
+    //[SerializeField] protected TempSpawner enemySpawner;//0
     [SerializeField] private AnimationClip walkAnimationClip;
     [SerializeField] private int coinsForDestroy;
 
