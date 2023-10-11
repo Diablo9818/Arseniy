@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class FiregunAbilityButton : MonoBehaviour
 {
-    [SerializeField] private Button abilityButton;
+    [SerializeField] private UnityEngine.UI.Button abilityButton;
     [SerializeField] private FireGun fireGun;
     private float abilityCooldown;
     private bool isCooldown;

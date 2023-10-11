@@ -7,11 +7,11 @@ public class ShopUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI coinsText;
 
-    [SerializeField] private Button fireGunAbilityBuy;
+    [SerializeField] private UnityEngine.UI.Button fireGunAbilityBuy;
     [SerializeField] private TextMeshProUGUI fireGunAbilityBuyText;
-    [SerializeField] private Button crossbowAbilityBuy;
+    [SerializeField] private UnityEngine.UI.Button crossbowAbilityBuy;
     [SerializeField] private TextMeshProUGUI crossbowAbilityBuyText;
-    [SerializeField] private Button mortarAbilityBuy;
+    [SerializeField] private UnityEngine.UI.Button mortarAbilityBuy;
     [SerializeField] private TextMeshProUGUI mortarAbilityBuyText;
 
     [SerializeField] private GameObject firegunBuyAbilityUI;
@@ -59,25 +59,25 @@ public class ShopUI : MonoBehaviour
 
     [Header("----------FIREGUN----------")]
     [SerializeField] private FireGun firegun;
-    [SerializeField] private Button upgradeFiregunDamageButton;
+    [SerializeField] private UnityEngine.UI.Button upgradeFiregunDamageButton;
     [SerializeField] private TextMeshProUGUI upgradeFiregunDamageText;
     [SerializeField] private TextMeshProUGUI upgradeFiregunDamagePriceText;
-    [SerializeField] private Button upgradeDotDamageButton;
+    [SerializeField] private UnityEngine.UI.Button upgradeDotDamageButton;
     [SerializeField] private TextMeshProUGUI upgradeDotDamageText;
     [SerializeField] private TextMeshProUGUI upgradeDotDamagePriceText;
-    [SerializeField] private Button upgradeDotDurationButton;
+    [SerializeField] private UnityEngine.UI.Button upgradeDotDurationButton;
     [SerializeField] private TextMeshProUGUI upgradeDotDurationText;
     [SerializeField] private TextMeshProUGUI upgradeDotDurationPriceText;
 
     [Header("----------CROSSBOW----------")]
     [SerializeField] private Crossbow crossbow;
-    [SerializeField] private Button upgradeCrossbowDamageButton;
+    [SerializeField] private UnityEngine.UI.Button upgradeCrossbowDamageButton;
     [SerializeField] private TextMeshProUGUI upgradeCrossbowDamageText;
     [SerializeField] private TextMeshProUGUI upgradeCrossbowDamagePriceText;
 
     [Header("----------MORTAR----------")]
     [SerializeField] private Mortar mortar;
-    [SerializeField] private Button upgradeMortarDamageButton;
+    [SerializeField] private UnityEngine.UI.Button upgradeMortarDamageButton;
     [SerializeField] private TextMeshProUGUI upgradeMortarDamageText;
     [SerializeField] private TextMeshProUGUI upgradeMortarDamagePriceText;
 

@@ -14,13 +14,13 @@ public class Player : MonoBehaviour
 
 
 
-    static Weapon topGun;
-    static Weapon midGun;
-    static Weapon botGun;
+     Weapon topGun;
+     Weapon midGun;
+     Weapon botGun;
 
-     public static GameObject topGunObj;
-     public static GameObject midGunObj;
-     public static GameObject botGunObj;
+     public  GameObject topGunObj;
+     public  GameObject midGunObj;
+     public  GameObject botGunObj;
 
     [SerializeField] private int coins;
 

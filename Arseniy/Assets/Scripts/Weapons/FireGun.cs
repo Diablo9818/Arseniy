@@ -11,8 +11,14 @@ public class FireGun : Weapon
     public static event EventHandler OnFireGunStartShooting;
     public static event EventHandler OnFireGunStopShooting;
 
+    public SkillManager skillsManager;
+
     [SerializeField] ParticleSystem fireParticle;
+    [SerializeField] ParticleSystem leftFireParticle;
+    [SerializeField] ParticleSystem rightFireParticle;
     [SerializeField] PolygonCollider2D fireCollider;
+    [SerializeField] PolygonCollider2D leftfireCollider;
+    [SerializeField] PolygonCollider2D rightfireCollider;
     private string NAME_OF_WEAPON = "FireGun";
 
     [Header("----------PROPERTIES----------")]
@@ -124,6 +130,16 @@ public class FireGun : Weapon
 
     public override void Shoot()
     {
+        if (skillsManager.fireGunleftFireEnable)
+        {
+            leftFireParticle.Play();
+            leftfireCollider.enabled = true;
+        }
+        if(skillsManager.fireGunrightFireEnable)
+        {
+            rightFireParticle.Play();
+            rightfireCollider.enabled = true;
+        }
 
         fireParticle.Play();
         fireCollider.enabled = true;
@@ -133,6 +149,17 @@ public class FireGun : Weapon
 
     public void StopShoot()
     {
+        if (skillsManager.fireGunleftFireEnable)
+        {
+            leftFireParticle.Stop();
+            leftfireCollider.enabled = false;
+        }
+        if (skillsManager.fireGunrightFireEnable)
+        {
+            rightFireParticle.Stop();
+            rightfireCollider.enabled = false;
+        }
+
         fireParticle.Stop();
         fireCollider.enabled = false;
 

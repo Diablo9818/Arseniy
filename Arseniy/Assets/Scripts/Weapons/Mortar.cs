@@ -14,6 +14,7 @@ public class Mortar : Weapon
     public event EventHandler OnAbilityAction;
 
     public static event EventHandler OnMortarShot;
+    public SkillManager skillsManager;
 
     GameObject sentProjectile;
     [HideInInspector] public Vector3 target;
@@ -25,6 +26,9 @@ public class Mortar : Weapon
     [SerializeField] float reloadTime = 2f;
 
     [SerializeField] GameObject superProjectile;
+    [SerializeField] GameObject smallProjectile;
+    [SerializeField] GameObject BigProjectile;
+
     [SerializeField] float coolDownTime;
     [SerializeField] int superShootsCount = 3;
     [SerializeField] public float superProjectileSpeed = 10f;
@@ -127,16 +131,31 @@ public class Mortar : Weapon
 
     public override void Shoot()
     {
-        if (!isReloading)
+        if (isReloading)
+        {
+            return;
+        }
+
+        if(skillsManager.smallYadroEnable)
+        {
+            GameObject.Instantiate(smallProjectile, projectileSpawnerTransform.position, transform.rotation);
+            isReloading = true;
+        }
+        else if (skillsManager.bigYadroEnable)
+        {
+            GameObject.Instantiate(BigProjectile, projectileSpawnerTransform.position, transform.rotation);
+            isReloading = true;
+        }
+        else
         {
             GameObject.Instantiate(projectile, projectileSpawnerTransform.position, transform.rotation);
             isReloading = true;
+        }
 
             OnMortarShot?.Invoke(this, EventArgs.Empty);
 
             spriteRenderer.sprite = ReloadingSprite;
             StartCoroutine(Reload());
-        }
     }
 
     public  void SuperShoot()

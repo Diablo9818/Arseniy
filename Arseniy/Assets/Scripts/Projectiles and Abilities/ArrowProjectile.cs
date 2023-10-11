@@ -8,14 +8,11 @@ public class ArrowProjectile : Projectile
 {
     public static event EventHandler OnArrowHit;
 
-    Crossbow crossbow;
     private string NAME_OF_WEAPON = "Ballista";
     private bool hasEntered = false;
 
     private void Start()
     {
-        crossbow = GameObject.Find("Crossbow").GetComponent<Crossbow>();
-        damage = crossbow.projectileDamage;
         DestroyThisIn(10f);
     }
 

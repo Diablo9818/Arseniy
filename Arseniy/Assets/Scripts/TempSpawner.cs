@@ -13,6 +13,8 @@ public class TempSpawner : MonoBehaviour
     [SerializeField] private float forBigMaxY = 2.97f;    
     [SerializeField] private float forSmallMinY = -0.27f;
     [SerializeField] private float forSmallMaxY = -1.9f;
+    [SerializeField] private int enemiesKillCountToOpenPanel;
+    [SerializeField] SkillPanel panel;
     [SerializeField] public int fastEnemyNumber { get; private set; } = 1;
     [SerializeField] public int flyingEnemyNumber { get; private set; } = 2;
     [SerializeField] public int shieldEnemyNumber { get; private set; } = 3;
@@ -29,6 +31,7 @@ public class TempSpawner : MonoBehaviour
     private float nextSpawnTime = 10f;
     private float _elapsedTime = 0;
     private bool isGolemSpawned = false;
+    private int enemyKillCount;
 
     private void Start()
     {
@@ -77,6 +80,26 @@ public class TempSpawner : MonoBehaviour
                 }
             }
         }
+
+        if(enemyKillCount >= enemiesKillCountToOpenPanel)
+        {
+            ShowAbilityPanel();
+            enemyKillCount = 0;
+        }
+
+        Debug.Log("enemyKillCount: " + enemyKillCount);
+    }
+
+    public void IncreaseKilledEnemyCount()
+    {
+        enemyKillCount++;
+    }
+
+    public void ShowAbilityPanel()
+    {
+        Time.timeScale = 0;
+        panel.gameObject.SetActive(true);
+        Debug.Log("Ready");
     }
 
     public void IncreaseEnemyPower()

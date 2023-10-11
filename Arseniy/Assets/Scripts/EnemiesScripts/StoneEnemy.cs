@@ -80,6 +80,7 @@ public class StoneEnemy : Enemy
             enemySpawner.DecreaseEnemiesCount(enemySpawner.golemEnemyNumber);
             enemySpawner.GolemUnspawned();
             enemySpawner.IncreaseEnemyPower();
+            enemySpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 
