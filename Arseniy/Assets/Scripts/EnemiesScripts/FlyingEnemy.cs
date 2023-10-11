@@ -12,6 +12,9 @@ public class FlyingEnemy : Enemy
     [SerializeField] private float waveSpeed = 1f; // Higher make the wave faster
     [SerializeField] private float bonusHeight = 1f; // Set higher if you want more wave intensity
 
+    private float defoldDamage = 10.842f;
+    private float defoldHealth = 30f;
+
     Vector3 startPosition;
     private float time;
 
@@ -75,7 +78,9 @@ public class FlyingEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            //enemySpawner.DecreaseEnemiesCount();
+            enemySpawner.DecreaseEnemiesCount(enemySpawner.flyingEnemyNumber);
+            enemySpawner.KilledFlyingEnemiesIncrease();
+            enemySpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

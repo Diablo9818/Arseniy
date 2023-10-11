@@ -11,6 +11,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] public GameObject projectile;
 
     [SerializeField] public Transform projectileSpawnerTransform;
+    [SerializeField] private List<SkillButton> skill;
     
     public abstract void Aim();
 

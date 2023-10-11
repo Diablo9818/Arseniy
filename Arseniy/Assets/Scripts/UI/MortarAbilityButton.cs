@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MortarAbilityButton : MonoBehaviour
 {
-    [SerializeField] private Button abilityButton;
+    [SerializeField] private UnityEngine.UI.Button abilityButton;
     [SerializeField] private Mortar mortar;
     private float abilityCooldown;
     private bool isCooldown;
