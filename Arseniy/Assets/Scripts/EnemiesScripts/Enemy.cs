@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float attackCooldown = 2f;
     [SerializeField]  protected int score;
     [SerializeField] protected GameManager gameManager;
-    [SerializeField] protected TempSpawner enemySpawner;
+    //[SerializeField] protected TempSpawner enemySpawner;//0
     [SerializeField] private AnimationClip walkAnimationClip;
     [SerializeField] private int coinsForDestroy;
     [SerializeField] private int persentCount;
@@ -44,9 +44,6 @@ public abstract class Enemy : MonoBehaviour
     public const string MORTAR = "Mortar";
     public const string FIREGUN= "FireGun";
 
-    private float defoldDamage;
-    private float defoldHealth;
-
     float speedValue;
 
     [HideInInspector] public float damageReduce;
@@ -54,7 +51,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        Player.Instance.AddCoins(coinsForDestroy);
+        CurrencyManager.Instance.AddCoins(coinsForDestroy);
     }
 
     private void Awake()
@@ -64,7 +61,7 @@ public abstract class Enemy : MonoBehaviour
         health = maxHealth;
         healthBar.maxValue = maxHealth;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        enemySpawner = GameObject.Find("EnemySpawnerTemp").GetComponent<TempSpawner>();
+        //enemySpawner = GameObject.Find("EnemySpawnerTemp").GetComponent<TempSpawner>();
 
         animator = GetComponent<Animator>();
         speedValue = speed;
@@ -140,6 +137,8 @@ public abstract class Enemy : MonoBehaviour
                 break;
         }
             
+
+
         damageReduce = armor / (armor + 400);
         actualDamage = (weaponDamage * (1 - damageReduce)) * (1 - currentDamageResist);
         health -= actualDamage;
@@ -154,21 +153,11 @@ public abstract class Enemy : MonoBehaviour
         if (once)
         {
             gameManager.UpdateScore(score);
+            //enemySpawner.DecreaseEnemiesCount();
             once = false;
         }
 
         Destroy(gameObject, 3);
-    }
-
-    public void IncreasePower()
-    {
-        float persentHealth = (maxHealth / 100) * persentCount;
-        maxHealth += maxHealth * (persentHealth / 100);
-        float persentDamage = (damage / 100) * persentCount;
-        damage += damage * (persentDamage / 100);
-        Debug.Log("maxHealth:" + maxHealth);
-        Debug.Log("damage:" + damage);
-        Debug.Log("Power Increased");
     }
 
     public virtual void Move()
@@ -196,5 +185,15 @@ public abstract class Enemy : MonoBehaviour
     public virtual int GetWeight()
     {
         return weight;
+    }
+    public void IncreasePower()
+    {
+        float persentHealth = (maxHealth / 100) * persentCount;
+        maxHealth += maxHealth * (persentHealth / 100);
+        float persentDamage = (damage / 100) * persentCount;
+        damage += damage * (persentDamage / 100);
+        Debug.Log("maxHealth:" + maxHealth);
+        Debug.Log("damage:" + damage);
+        Debug.Log("Power Increased");
     }
 }

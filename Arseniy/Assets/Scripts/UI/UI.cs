@@ -2,35 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Button openShopButton;
-    [SerializeField] private ShopUI shopUI;
+    [SerializeField] private Button crossBowAbility;
+    [SerializeField] private Button firegunAbility;
+    [SerializeField] private Button mortarAbility;
 
-    [SerializeField] private UnityEngine.UI.Button crossBowAbility;
-    [SerializeField] private UnityEngine.UI.Button firegunAbility;
-    [SerializeField] private UnityEngine.UI.Button mortarAbility;
+    [SerializeField] private bool isPauseActive = false;
+    [SerializeField] private GameObject pauseObject;
 
     private void Start()
     {
-        Hide(shopUI.gameObject);
         Hide(crossBowAbility.gameObject);
         Hide(firegunAbility.gameObject);
         Hide(mortarAbility.gameObject);
-
-        openShopButton.onClick.AddListener(() => {
-            if (shopUI.gameObject.activeSelf) {
-                Hide(shopUI.gameObject);
-            } else {
-                Show(shopUI.gameObject);
-            }
-        });
-
-
-        shopUI.OnCrossbowAbilityBought += ShopUI_OnCrossbowAbilityBought;
-        shopUI.OnFiregunAbilityBought += ShopUI_OnFiregunAbilityBought;
-        shopUI.OnMortarAbilityBought += ShopUI_OnMortarAbilityBought;
     }
 
     private void ShopUI_OnMortarAbilityBought(object sender, System.EventArgs e)
@@ -56,5 +43,47 @@ public class UI : MonoBehaviour
     private void Hide(GameObject gameObject)
     {
         gameObject.SetActive(false);
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    public void StartGame()
+    {
+        if (CurrencyManager.Instance.UseEnergy())
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
+    public void RestartGame()
+    {
+        if (CurrencyManager.Instance.UseEnergy())
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+
+    public void OpenPauseMenu()
+    {
+        if (!isPauseActive)
+        {
+            pauseObject.SetActive(true);
+            isPauseActive = true;
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pauseObject.SetActive(false);
+            isPauseActive = false;
+            Time.timeScale = 1;
+        }
     }
 }

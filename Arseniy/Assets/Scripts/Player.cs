@@ -12,8 +12,6 @@ public class Player : MonoBehaviour
 
     public static Player Instance;
 
-
-
      Weapon topGun;
      Weapon midGun;
      Weapon botGun;
@@ -21,8 +19,6 @@ public class Player : MonoBehaviour
      public  GameObject topGunObj;
      public  GameObject midGunObj;
      public  GameObject botGunObj;
-
-    [SerializeField] private int coins;
 
     private bool hasFiregunAbility;
     private bool hasCrossbowAbility;
@@ -52,16 +48,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        
-
         SwipeDetection.OnSwipeEvent += SwapWeapon;
         
-
         //Debug.Log(toMortar);
         //Debug.Log(toCrossbow);
         //Debug.Log(toThirdWeapon);
-
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
@@ -128,6 +119,8 @@ public class Player : MonoBehaviour
             topGunObj = bridgeObj;
 
         }
+
+        
     }
 
     public bool CheckAbility(Weapon weapon)
@@ -158,20 +151,4 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
-    public void AddCoins(int coinsToAdd)
-    {
-        coins += coinsToAdd;
-    } 
-
-    public void SpendCoins(int spentCoins)
-    {
-        coins -= spentCoins;
-    }
-
-    public int GetCoins()
-    {
-        return coins;
-    }
-
 }

@@ -690,7 +690,7 @@ MonoBehaviour:
   maxHealth: 37.5
   health: 0
   speed: 0.5
-  damage: 13.915125
+  damage: 7
   weight: 3
   attackCooldown: 0.5
   score: 50
@@ -698,7 +698,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   walkAnimationClip: {fileID: 7400000, guid: eb0fe023fb462734687d3b9791960d98, type: 2}
   coinsForDestroy: 2
-  persentCount: 100
   animator: {fileID: 0}
   armor: 7
   arrowDamageResist: 0.05
@@ -999,7 +998,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   walkAnimationClip: {fileID: 7400000, guid: 4bb92d8126bf46e48beda1d8271a6958, type: 2}
   coinsForDestroy: 0
-  persentCount: 0
   animator: {fileID: 0}
   armor: 0
   arrowDamageResist: 0

@@ -77,10 +77,10 @@ public class StoneEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.golemEnemyNumber);
-            enemySpawner.GolemUnspawned();
-            enemySpawner.IncreaseEnemyPower();
-            enemySpawner.IncreaseKilledEnemyCount();
+            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.golemEnemyNumber);
+            SeekerScript.spawner.GolemUnspawned();
+            SeekerScript.spawner.IncreaseEnemyPower();
+            SeekerScript.spawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

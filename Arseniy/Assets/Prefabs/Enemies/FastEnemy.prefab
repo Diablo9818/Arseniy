@@ -441,7 +441,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   walkAnimationClip: {fileID: 7400000, guid: 1053bdce39e70cb41845ccb2d3014b43, type: 2}
   coinsForDestroy: 1
-  persentCount: 2
   animator: {fileID: 0}
   armor: 5
   arrowDamageResist: 0

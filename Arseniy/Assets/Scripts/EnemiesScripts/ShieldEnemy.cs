@@ -87,9 +87,9 @@ public class ShieldEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.shieldEnemyNumber);
-            enemySpawner.KilledShieldEnemiesIncrease();
-            enemySpawner.IncreaseKilledEnemyCount();
+            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.shieldEnemyNumber);
+            SeekerScript.spawner.KilledShieldEnemiesIncrease();
+            SeekerScript.spawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

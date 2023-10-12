@@ -25,10 +25,10 @@ public class FastEnemy : Enemy
 
         if (once)
         {
-            enemySpawner.KilledFastEnemiesIncrease();
+            SeekerScript.spawner.KilledFastEnemiesIncrease();
             gameManager.UpdateScore(score);
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.fastEnemyNumber);
-            enemySpawner.IncreaseKilledEnemyCount();
+            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.fastEnemyNumber);
+            SeekerScript.spawner.IncreaseKilledEnemyCount();
             once = false;
         }
 
