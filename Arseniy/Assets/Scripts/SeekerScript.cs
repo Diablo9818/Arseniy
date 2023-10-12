@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class SeekerScript : MonoBehaviour
 {
-    [SerializeField] public static TempSpawner  spawner;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static TempSpawner  spawner;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

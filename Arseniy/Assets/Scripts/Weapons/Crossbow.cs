@@ -24,12 +24,6 @@ public class Crossbow : Weapon
     [SerializeField] public float projectileSpeed = 10f;
     [SerializeField] float reloadTime = 2f;
 
-    [SerializeField] private GameObject TwoArrow;
-    [SerializeField] private GameObject ThreeArrow;
-    [SerializeField] private GameObject FourArrow;
-    [SerializeField] private GameObject FiveArrow;
-    [SerializeField] private GameObject SixArrow;
-
     [SerializeField] GameObject superProjectile;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite defaultSprite;
@@ -48,6 +42,11 @@ public class Crossbow : Weapon
     [SerializeField] private float crossbowDamageLevel2;
     [SerializeField] private float crossbowDamageLevel3;
     [SerializeField] private float crossbowDamageLevel4;
+
+    [SerializeField] private Transform FirstProjectileSpawnerTransform;
+    [SerializeField] private Transform SecondProjectileSpawnerTransform;
+    [SerializeField] private Transform ThirdProjectileSpawnerTransform;
+    [SerializeField] private Transform FourthProjectileSpawnerTransform;
 
     public enum DamageLevel
     {
@@ -124,47 +123,28 @@ public class Crossbow : Weapon
         }
         if (skillsManager.crossbowCanDoubleShot)
         {
-            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f,0.5f,0f));
-            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f));
+            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f,0.5f,0f), projectileSpawnerTransform.rotation);
+            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f), projectileSpawnerTransform.rotation);
         }
         else if (skillsManager.crossbowPlusOneArrow)
         {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.2f, 0f));
+            CreateProjectile(projectile, FirstProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, 30));
         }
         else if (skillsManager.crossbowPlusTwoArrow)
         {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.2f, 0f));
+            CreateProjectile(projectile, SecondProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, -30));
         }
         else if (skillsManager.crossbowPlusThreeArrow)
         {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.4f, 0f));
+            CreateProjectile(projectile, ThirdProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, 60));
         }
         else if (skillsManager.crossbowPlusFourArrow)
         {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.4f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.4f, 0f));
-        }
-        else if (skillsManager.crossbowPlusFiveArrow)
-        {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.4f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.2f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.4f, 0f));
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.6f, 0f));
+            CreateProjectile(projectile, FourthProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, -60));
         }
         else
         {
-            CreateProjectile(projectile,projectileSpawnerTransform.position);
+            CreateProjectile(projectile,projectileSpawnerTransform.position, projectileSpawnerTransform.rotation);
         }
 
         isReloading = true;
@@ -173,9 +153,9 @@ public class Crossbow : Weapon
         OnBallistaDefaultShot?.Invoke(this, EventArgs.Empty);
     }
 
-    private void CreateProjectile(GameObject projectile,Vector3 spawnPosition)
+    private void CreateProjectile(GameObject projectile,Vector3 spawnPosition, Quaternion rotation)
     {
-        var sentProjectile = GameObject.Instantiate(projectile, spawnPosition, transform.rotation);
+        var sentProjectile = GameObject.Instantiate(projectile, spawnPosition, rotation);
         sentProjectile.GetComponent<Rigidbody2D>().AddForce(projectileSpawnerTransform.right * projectileSpeed, ForceMode2D.Impulse);
 
         if(sentProjectile.TryGetComponent(out ArrowProjectile arrowProjectile))

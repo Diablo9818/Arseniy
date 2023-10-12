@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float attackCooldown = 2f;
     [SerializeField]  protected int score;
     [SerializeField] protected GameManager gameManager;
-    //[SerializeField] protected TempSpawner enemySpawner;//0
+    [SerializeField] protected TempSpawner enemySpawner;
     [SerializeField] private AnimationClip walkAnimationClip;
     [SerializeField] private int coinsForDestroy;
     [SerializeField] private int persentCount;
@@ -61,7 +61,7 @@ public abstract class Enemy : MonoBehaviour
         health = maxHealth;
         healthBar.maxValue = maxHealth;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //enemySpawner = GameObject.Find("EnemySpawnerTemp").GetComponent<TempSpawner>();
+        enemySpawner = GameObject.Find("Spawner").GetComponent<TempSpawner>();
 
         animator = GetComponent<Animator>();
         speedValue = speed;
