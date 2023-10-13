@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public class SuperBombProjectile : Projectile
 {
@@ -15,18 +12,13 @@ public class SuperBombProjectile : Projectile
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite ActivatedBombSprite;
 
-    public static event EventHandler OnSuperBombActivation;
+    public Action OnSuperBombActivation;
     bool once = true;
 
 
-    public static void ResetStaticData()
-    {
-        OnSuperBombActivation = null;
-    }
-
     private void Start()
     {
-        mortar = GameObject.Find("Mortar").GetComponent<Mortar>();
+        mortar = FindObjectOfType<Mortar>();
         damage = mortar.projectileDamage;
         projectileTarget = mortar.target;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -47,7 +39,7 @@ public class SuperBombProjectile : Projectile
                 GetComponent<CircleCollider2D>().enabled = true;
                 StartCoroutine(DestroyCoroutine(destroyTime));
                 if (once) {
-                    OnSuperBombActivation?.Invoke(this, EventArgs.Empty);
+                    OnSuperBombActivation?.Invoke();
                     once = false;
                 }
                 

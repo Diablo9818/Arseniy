@@ -1,19 +1,16 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ArrowProjectile : Projectile
 {
-    public static event EventHandler OnArrowHit;
+    public Action OnArrowHit;
 
-    private string NAME_OF_WEAPON = "Ballista";
+    private readonly string NAME_OF_WEAPON = "Ballista";
     private bool hasEntered = false;
 
     private void Start()
     {
-        DestroyThisIn(10f);
+        Destroy(gameObject, 10f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,23 +22,21 @@ public class ArrowProjectile : Projectile
             enemy.TakeDamage(damage, NAME_OF_WEAPON);
 
             if (enemy.GetComponent<Shield>() == null && enemy.GetComponent<StoneEnemy>() == null) {
-                OnArrowHit?.Invoke(this, EventArgs.Empty);
+                OnArrowHit?.Invoke();
             }
             hasEntered = true;
             Destroy(gameObject);
         }
         
 
-        if (collision.tag == "Border")
+        if (collision.CompareTag("Border"))
         {
             Destroy(gameObject);
-
         }
 
-        if (collision.tag == "Rock")
+        if (collision.CompareTag("Rock"))
         {
             Destroy(collision.gameObject);
-
         }
     }
 }

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StoneEnemy : Enemy
 {
@@ -77,10 +74,11 @@ public class StoneEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.golemEnemyNumber);
-            SeekerScript.spawner.GolemUnspawned();
-            SeekerScript.spawner.IncreaseEnemyPower();
-            SeekerScript.spawner.IncreaseKilledEnemyCount();
+            var tempSpawner = FindObjectOfType<TempSpawner>();
+            tempSpawner.DecreaseEnemiesCount(tempSpawner.golemEnemyNumber);
+            tempSpawner.GolemUnspawned();
+            tempSpawner.IncreaseEnemyPower();
+            tempSpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

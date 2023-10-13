@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShieldEnemy : Enemy
 {
@@ -87,9 +84,10 @@ public class ShieldEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.shieldEnemyNumber);
-            SeekerScript.spawner.KilledShieldEnemiesIncrease();
-            SeekerScript.spawner.IncreaseKilledEnemyCount();
+            var tempSpawner = FindObjectOfType<TempSpawner>();
+            tempSpawner.DecreaseEnemiesCount(tempSpawner.shieldEnemyNumber);
+            tempSpawner.KilledShieldEnemiesIncrease();
+            tempSpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

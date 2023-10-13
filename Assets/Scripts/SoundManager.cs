@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClipsRefsSO audioClipsRefsSO;
     private AudioSource audioSource;
-
-    [SerializeField] private FireGun firegun;
     private AudioSource firegunAudioSource;
 
     [Header("----------VOLUME----------")]
@@ -33,75 +29,90 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        Crossbow.OnBallistaDefaultShot += Crossbow_OnBallistaDefaultShot;
-        Crossbow.OnBallistaSuperShot += Crossbow_OnBallistaSuperShot;
-        Mortar.OnMortarShot += Mortar_OnMortarShot;
-        FireGun.OnFireGunStartShooting += FireGun_OnFireGunStartShooting;
-        FireGun.OnFireGunStopShooting += FireGun_OnFireGunStopShooting;
+        var crossbow = FindObjectOfType<Crossbow>();
+        if (crossbow)
+        {
+            crossbow.OnBallistaDefaultShot += Crossbow_OnBallistaDefaultShot;
+            crossbow.OnBallistaSuperShot += Crossbow_OnBallistaSuperShot;
+        }
 
-        firegunAudioSource = firegun.GetComponent<AudioSource>();
 
-        BombProjectile.OnBombExplosion += BombProjectile_OnBombExplostion;
-        SuperBombProjectile.OnSuperBombActivation += SuperBombProjectile_OnSuperBombActivation;
-        ArrowProjectile.OnArrowHit += ArrowProjectile_OnArrowHit;
-        FireGun.OnAbilityAction += FireGun_OnAbilityAction;
+        var mortar = FindObjectOfType<Mortar>();
+        if (mortar)
+            mortar.OnMortarShot += Mortar_OnMortarShot;
+
+        var firegun = FindObjectOfType<FireGun>();
+
+        if (firegun)
+        {
+            firegun.OnFireGunStartShooting += FireGun_OnFireGunStartShooting;
+            firegun.OnFireGunStopShooting += FireGun_OnFireGunStopShooting;
+            firegunAudioSource = firegun.GetComponent<AudioSource>();
+            firegun.OnAbilityAction += FireGun_OnAbilityAction;
+        }
+
+
+        var bombProjectile = FindObjectOfType<BombProjectile>();
+        if (bombProjectile)
+            bombProjectile.OnBombExplosion += BombProjectile_OnBombExplostion;
+
+        var superBombProjectile = FindObjectOfType<SuperBombProjectile>();
+        if (superBombProjectile)
+            superBombProjectile.OnSuperBombActivation += SuperBombProjectile_OnSuperBombActivation;
+
+        var arrowProjectile = FindObjectOfType<ArrowProjectile>();
+        if (arrowProjectile)
+            arrowProjectile.OnArrowHit += ArrowProjectile_OnArrowHit;
+
     }
 
-    private void FireGun_OnAbilityAction(object sender, System.EventArgs e)
+    private void FireGun_OnAbilityAction()
     {
         PlaySound(audioClipsRefsSO.firegunAbilitySound, firegunAbilityVolume);
     }
 
-    private void ArrowProjectile_OnArrowHit(object sender, System.EventArgs e)
+    private void ArrowProjectile_OnArrowHit()
     {
-        ArrowProjectile arrowProjectile = sender as ArrowProjectile;
         PlaySound(audioClipsRefsSO.arrowHitSound, arrowHitVolume);
     }
 
-    private void BombProjectile_OnBombExplostion(object sender, System.EventArgs e)
+    private void BombProjectile_OnBombExplostion()
     {
-        BombProjectile bombProjectile = sender as BombProjectile;
         PlaySound(audioClipsRefsSO.bombExplosionSound, bombExplosionVolume);
     }
 
-    private void SuperBombProjectile_OnSuperBombActivation(object sender, System.EventArgs e)
+    private void SuperBombProjectile_OnSuperBombActivation()
     {
-        SuperBombProjectile superBombProjectile = sender as SuperBombProjectile;
         PlaySound(audioClipsRefsSO.bombExplosionSound, bombExplosionVolume);
         PlaySound(audioClipsRefsSO.superBombExplosionSound, superBombMagnetEffectVolume);
     }
 
-    private void FireGun_OnFireGunStopShooting(object sender, System.EventArgs e)
+    private void FireGun_OnFireGunStopShooting()
     {
         firegunAudioSource.Pause();
     }
 
-    private void FireGun_OnFireGunStartShooting(object sender, System.EventArgs e)
+    private void FireGun_OnFireGunStartShooting()
     {
         firegunAudioSource.clip = audioClipsRefsSO.firegunParticleSound;
         firegunAudioSource.volume = firegunParticleVolume;
         firegunAudioSource.Play();
     }
 
-    private void Mortar_OnMortarShot(object sender, System.EventArgs e)
+    private void Mortar_OnMortarShot()
     {
-        Mortar mortar = sender as Mortar;
         PlaySound(audioClipsRefsSO.mortarShotSound, mortarShotVolume);
     }
 
-    private void Crossbow_OnBallistaSuperShot(object sender, System.EventArgs e)
+    private void Crossbow_OnBallistaSuperShot()
     {
-        Crossbow ballista = sender as Crossbow;
         PlaySound(audioClipsRefsSO.ballistaAbilityShotSound, ballistaShotVolume);
     }
 
-    private void Crossbow_OnBallistaDefaultShot(object sender, System.EventArgs e)
+    private void Crossbow_OnBallistaDefaultShot()
     {
-        Crossbow ballista = sender as Crossbow;
         PlaySound(audioClipsRefsSO.ballistaShotSound, ballistaShotVolume);
     }
-
-
 
     private void PlaySound(AudioClip audioClip, float volume)
     {

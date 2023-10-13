@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Threading;
 using System;
 using UnityEngine;
-using TMPro;
 
 public class CurrencyManager : MonoBehaviour
 {
@@ -13,24 +11,12 @@ public class CurrencyManager : MonoBehaviour
     public int CurrEnergy;
     [SerializeField] private int coins;
 
-
-    public static CurrencyManager Instance;
-
     private Coroutine myCoroutine;
+    EnergyTextUpdater _energyTextUpdated;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            StartMyCoroutine();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        _energyTextUpdated = FindObjectOfType<EnergyTextUpdater>();
         string appExitTimeStr = PlayerPrefs.GetString("AppExitTime", "");
         CurrEnergy = PlayerPrefs.GetInt("AppExitEnergy");
         if (!string.IsNullOrEmpty(appExitTimeStr))
@@ -45,8 +31,13 @@ public class CurrencyManager : MonoBehaviour
         }
     }
 
-    public void StartMyCoroutine()
+    private void Start()
     {
+        var otherCurrencyManagers = FindObjectsOfType<CurrencyManager>();
+        if(otherCurrencyManagers.Length > 1)
+        {
+            Debug.LogError("Динь дон, больше одного currency managerа на сцене");
+        }
         myCoroutine = StartCoroutine(MyCoroutine());
     }
 
@@ -72,7 +63,7 @@ public class CurrencyManager : MonoBehaviour
             {
                 CurrEnergy = MaxEnergy;
             }
-            EnergyTextUpdater.Instance.UpdateText();
+            _energyTextUpdated.UpdateText();
         }
     }
 
@@ -86,7 +77,7 @@ public class CurrencyManager : MonoBehaviour
         if (CurrEnergy >= EnergyForRun)
         {
             CurrEnergy -= EnergyForRun;
-            EnergyTextUpdater.Instance.UpdateText();
+            _energyTextUpdated.UpdateText();
             return true;
         } else
         {
@@ -115,7 +106,7 @@ public class CurrencyManager : MonoBehaviour
                 {
                     CurrEnergy = MaxEnergy;
                 }
-                EnergyTextUpdater.Instance.UpdateText();
+                _energyTextUpdated.UpdateText();
             }
             coins = PlayerPrefs.GetInt("AppExitCoins");
         }

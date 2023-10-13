@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FiregunAbilityButton : MonoBehaviour
 {
@@ -14,12 +11,13 @@ public class FiregunAbilityButton : MonoBehaviour
 
     private void Start()
     {
-        FireGun.OnAbilityAction += FireGun_OnAbilityAction;
+        var fireGun = FindObjectOfType<FireGun>();
+        fireGun.OnAbilityAction += FireGun_OnAbilityAction;
         abilityCooldown = fireGun.GetAbilityCooldown();
         HideCooldownText();
     }
 
-    private void FireGun_OnAbilityAction(object sender, System.EventArgs e)
+    private void FireGun_OnAbilityAction()
     {
         isCooldown = true;
     }

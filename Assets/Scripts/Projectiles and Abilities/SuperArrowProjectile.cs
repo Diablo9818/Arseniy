@@ -59,6 +59,6 @@ public class SuperArrowProjectile : Projectile
     {
         crossbow = GameObject.Find("Crossbow").GetComponent<Crossbow>();
         damage = crossbow.projectileDamage;
-        DestroyThisIn(10f);
+        Destroy(gameObject, 10f);
     }
 }

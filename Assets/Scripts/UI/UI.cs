@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -13,8 +11,11 @@ public class UI : MonoBehaviour
     [SerializeField] private bool isPauseActive = false;
     [SerializeField] private GameObject pauseObject;
 
+    private CurrencyManager _currencyManager;
+
     private void Start()
     {
+        _currencyManager = FindObjectOfType<CurrencyManager>();
         Hide(crossBowAbility.gameObject);
         Hide(firegunAbility.gameObject);
         Hide(mortarAbility.gameObject);
@@ -56,14 +57,14 @@ public class UI : MonoBehaviour
     }
     public void StartGame()
     {
-        if (CurrencyManager.Instance.UseEnergy())
+        if (_currencyManager.UseEnergy())
         {
             SceneManager.LoadScene(1);
         }
     }
     public void RestartGame()
     {
-        if (CurrencyManager.Instance.UseEnergy())
+        if (_currencyManager.UseEnergy())
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

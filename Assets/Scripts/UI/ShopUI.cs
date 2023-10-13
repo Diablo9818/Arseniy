@@ -81,7 +81,7 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI upgradeMortarDamageText;
     [SerializeField] private TextMeshProUGUI upgradeMortarDamagePriceText;
 
-
+    CurrencyManager _currencyManager;
 
     private void OnEnable()
     {
@@ -90,6 +90,7 @@ public class ShopUI : MonoBehaviour
 
     private void Start()
     {
+        _currencyManager = FindObjectOfType<CurrencyManager>();
         fireGunAbilityBuyText.text = $"{firegunAbilityPrice}";
         crossbowAbilityBuyText.text = $"{crossbowAbilityPrice}";
         mortarAbilityBuyText.text = $"{mortarAbilityPrice}";
@@ -105,8 +106,8 @@ public class ShopUI : MonoBehaviour
         });
         
         upgradeFiregunDamageButton.onClick.AddListener(() => {
-            if(CurrencyManager.Instance.GetCoins() >= firegunDamagePrice) {
-                CurrencyManager.Instance.SpendCoins(firegunDamagePrice);
+            if(_currencyManager.GetCoins() >= firegunDamagePrice) {
+                _currencyManager.SpendCoins(firegunDamagePrice);
                 firegun.UpgradeDamageLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -114,8 +115,8 @@ public class ShopUI : MonoBehaviour
         });
 
         upgradeDotDurationButton.onClick.AddListener(() => {
-            if (CurrencyManager.Instance.GetCoins() >= firegunDotDurationPrice) {
-                CurrencyManager.Instance.SpendCoins(firegunDotDurationPrice);
+            if (_currencyManager.GetCoins() >= firegunDotDurationPrice) {
+                _currencyManager.SpendCoins(firegunDotDurationPrice);
                 firegun.UpgradeDotDurationLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -123,8 +124,8 @@ public class ShopUI : MonoBehaviour
         });
 
         upgradeDotDamageButton.onClick.AddListener(() => {
-            if (CurrencyManager.Instance.GetCoins() >= firegunDotDamagePrice) {
-                CurrencyManager.Instance.SpendCoins(firegunDotDamagePrice);
+            if (_currencyManager.GetCoins() >= firegunDotDamagePrice) {
+                _currencyManager.SpendCoins(firegunDotDamagePrice);
                 firegun.UpgradeDotDamageLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -132,8 +133,8 @@ public class ShopUI : MonoBehaviour
         });
 
         upgradeCrossbowDamageButton.onClick.AddListener(() => {
-            if (CurrencyManager.Instance.GetCoins() >= crossbowDamagePrice) {
-                CurrencyManager.Instance.SpendCoins(crossbowDamagePrice);
+            if (_currencyManager.GetCoins() >= crossbowDamagePrice) {
+                _currencyManager.SpendCoins(crossbowDamagePrice);
                 crossbow.UpgradeDamageLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -141,8 +142,8 @@ public class ShopUI : MonoBehaviour
         });
 
         upgradeMortarDamageButton.onClick.AddListener(() => {
-            if (CurrencyManager.Instance.GetCoins() >= mortarDamagePrice) {
-                CurrencyManager.Instance.SpendCoins(mortarDamagePrice);
+            if (_currencyManager.GetCoins() >= mortarDamagePrice) {
+                _currencyManager.SpendCoins(mortarDamagePrice);
                 mortar.UpgradeDamageLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -159,16 +160,16 @@ public class ShopUI : MonoBehaviour
 
     private void UpdateCoinsAmount()
     {
-        coinsText.text = $"Монет: {CurrencyManager.Instance.GetCoins()}";
+        coinsText.text = $"Монет: {_currencyManager.GetCoins()}";
     }
 
     private void TryToBuyAbility(Player.Weapon weapon)
     {
         switch (weapon) {
             case Player.Weapon.FireGun:
-                if(CurrencyManager.Instance.GetCoins() >= firegunAbilityPrice) {
+                if(_currencyManager.GetCoins() >= firegunAbilityPrice) {
                     OnFiregunAbilityBought?.Invoke(this, EventArgs.Empty);
-                    CurrencyManager.Instance.SpendCoins(firegunAbilityPrice);
+                    _currencyManager.SpendCoins(firegunAbilityPrice);
 
                     //Show(firegunUpgradeAbilityUI);
                     Hide(fireGunAbilityBuy.gameObject);
@@ -177,9 +178,9 @@ public class ShopUI : MonoBehaviour
                 }
                 break;
             case Player.Weapon.Mortar:
-                if (CurrencyManager.Instance.GetCoins() >= mortarAbilityPrice) {
+                if (_currencyManager.GetCoins() >= mortarAbilityPrice) {
                     OnMortarAbilityBought?.Invoke(this, EventArgs.Empty);
-                    CurrencyManager.Instance.SpendCoins(mortarAbilityPrice);
+                    _currencyManager.SpendCoins(mortarAbilityPrice);
 
                     //Show(mortarUpgradeAbilityUI);
                     Hide(mortarAbilityBuy.gameObject);
@@ -188,9 +189,9 @@ public class ShopUI : MonoBehaviour
                 }
                 break;
             case Player.Weapon.Crossbow:
-                if (CurrencyManager.Instance.GetCoins() >= crossbowAbilityPrice) {
+                if (_currencyManager.GetCoins() >= crossbowAbilityPrice) {
                     OnCrossbowAbilityBought?.Invoke(this, EventArgs.Empty);
-                    CurrencyManager.Instance.SpendCoins(crossbowAbilityPrice);
+                    _currencyManager.SpendCoins(crossbowAbilityPrice);
 
                     //Show(crossbowUpgradeAbilityUI);
                     Hide(crossbowAbilityBuy.gameObject);

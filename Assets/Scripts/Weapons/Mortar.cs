@@ -1,22 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System;
-using System.Runtime.CompilerServices;
 
 public class Mortar : Weapon
 {
     bool isReloading = false;
 
-    public event EventHandler OnAbilityAction;
+    public Action OnAbilityAction;
 
-    public static event EventHandler OnMortarShot;
+    public Action OnMortarShot;
     public SkillManager skillsManager;
-
-    GameObject sentProjectile;
     [HideInInspector] public Vector3 target;
 
     [Space]
@@ -55,16 +48,9 @@ public class Mortar : Weapon
 
     bool isSuperPowerActivated = false;
 
-    public static void ResetStaticData()
-    {
-        OnMortarShot = null;
-    }
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        ResetStaticData();
     }
 
     public override void Aim()
@@ -77,7 +63,7 @@ public class Mortar : Weapon
 
         transform.eulerAngles = new Vector3(0, 0, Mathf.Clamp(angle, -weaponRotationClamp, weaponRotationClamp));
     }
-    
+
     private void Update()
     {
         if (playerScript.activeGun == Player.Weapon.Mortar)
@@ -110,8 +96,10 @@ public class Mortar : Weapon
                 CrosshairHide();
             }
 
-            
-        } else {
+
+        }
+        else
+        {
             abilityButtonUI.transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
@@ -136,7 +124,7 @@ public class Mortar : Weapon
             return;
         }
 
-        if(skillsManager.smallYadroEnable)
+        if (skillsManager.smallYadroEnable)
         {
             GameObject.Instantiate(smallProjectile, projectileSpawnerTransform.position, transform.rotation);
             isReloading = true;
@@ -152,23 +140,23 @@ public class Mortar : Weapon
             isReloading = true;
         }
 
-            OnMortarShot?.Invoke(this, EventArgs.Empty);
+        OnMortarShot?.Invoke();
 
-            spriteRenderer.sprite = ReloadingSprite;
-            StartCoroutine(Reload());
+        spriteRenderer.sprite = ReloadingSprite;
+        StartCoroutine(Reload());
     }
 
-    public  void SuperShoot()
+    public void SuperShoot()
     {
         if (!isReloading)
         {
-            OnAbilityAction?.Invoke(this, EventArgs.Empty);
+            OnAbilityAction?.Invoke();
             GameObject.Instantiate(superProjectile, projectileSpawnerTransform.position, transform.rotation);
             isReloading = true;
             superShootsCount--;
             StartCoroutine(Reload());
 
-            OnMortarShot?.Invoke(this, EventArgs.Empty);
+            OnMortarShot?.Invoke();
         }
     }
 
@@ -198,7 +186,8 @@ public class Mortar : Weapon
 
     private void HandleUpgrading()
     {
-        switch (currentDamageLevel) {
+        switch (currentDamageLevel)
+        {
             case DamageLevel.Level1:
                 projectileDamage = mortarDamageLevel1;
                 break;

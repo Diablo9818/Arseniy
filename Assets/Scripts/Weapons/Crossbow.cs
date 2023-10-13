@@ -1,16 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System;
 
 public class Crossbow : Weapon
 {
-    public event EventHandler OnAbilityAction;
-    public static event EventHandler OnBallistaDefaultShot;
-    public static event EventHandler OnBallistaSuperShot;
+    public Action OnAbilityAction;
+    public Action OnBallistaDefaultShot;
+    public Action OnBallistaSuperShot;
 
     public SkillManager skillsManager;
 
@@ -56,18 +52,10 @@ public class Crossbow : Weapon
         Level4 = 4
     }
 
-    public static void ResetStaticData()
-    {
-        OnBallistaDefaultShot = null;
-        OnBallistaSuperShot = null;
-    }
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         skillsManager = FindObjectOfType<SkillManager>();
-
-        ResetStaticData();
     }
 
     private void Update()
@@ -79,20 +67,17 @@ public class Crossbow : Weapon
             {
                 Crosshair();
                 Aim();
-                if (true)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        target = crosshair.transform.position;
+                    target = crosshair.transform.position;
 
-                        if (isSuperPowerActivated && superShootsCount > 0)
-                        {
-                            SuperShoot();
-                        }
-                        else
-                        {
-                            Shoot();
-                        }
+                    if (isSuperPowerActivated && superShootsCount > 0)
+                    {
+                        SuperShoot();
+                    }
+                    else
+                    {
+                        Shoot();
                     }
                 }
             }
@@ -123,8 +108,8 @@ public class Crossbow : Weapon
         }
         if (skillsManager.crossbowCanDoubleShot)
         {
-            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f,0.5f,0f), projectileSpawnerTransform.rotation);
-            CreateProjectile(projectile,projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f), projectileSpawnerTransform.rotation);
+            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.5f, 0f), projectileSpawnerTransform.rotation);
+            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f), projectileSpawnerTransform.rotation);
         }
         else if (skillsManager.crossbowPlusOneArrow)
         {
@@ -144,21 +129,21 @@ public class Crossbow : Weapon
         }
         else
         {
-            CreateProjectile(projectile,projectileSpawnerTransform.position, projectileSpawnerTransform.rotation);
+            CreateProjectile(projectile, projectileSpawnerTransform.position, projectileSpawnerTransform.rotation);
         }
 
         isReloading = true;
         StartCoroutine(Reload());
 
-        OnBallistaDefaultShot?.Invoke(this, EventArgs.Empty);
+        OnBallistaDefaultShot?.Invoke();
     }
 
-    private void CreateProjectile(GameObject projectile,Vector3 spawnPosition, Quaternion rotation)
+    private void CreateProjectile(GameObject projectile, Vector3 spawnPosition, Quaternion rotation)
     {
         var sentProjectile = GameObject.Instantiate(projectile, spawnPosition, rotation);
         sentProjectile.GetComponent<Rigidbody2D>().AddForce(projectileSpawnerTransform.right * projectileSpeed, ForceMode2D.Impulse);
 
-        if(sentProjectile.TryGetComponent(out ArrowProjectile arrowProjectile))
+        if (sentProjectile.TryGetComponent(out ArrowProjectile arrowProjectile))
         {
             arrowProjectile.damage = projectileDamage;
         }
@@ -168,14 +153,14 @@ public class Crossbow : Weapon
     {
         if (!isReloading)
         {
-            OnAbilityAction?.Invoke(this, EventArgs.Empty);
+            OnAbilityAction?.Invoke();
             var sentProjectile = GameObject.Instantiate(superProjectile, projectileSpawnerTransform.position, transform.rotation);
             sentProjectile.GetComponent<Rigidbody2D>().AddForce(projectileSpawnerTransform.right * superProjectileSpeed, ForceMode2D.Impulse);
             isReloading = true;
             superShootsCount--;
             StartCoroutine(Reload());
 
-            OnBallistaSuperShot?.Invoke(this, EventArgs.Empty);
+            OnBallistaSuperShot?.Invoke();
         }
     }
 

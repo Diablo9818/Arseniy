@@ -78,9 +78,10 @@ public class FlyingEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-            SeekerScript.spawner.DecreaseEnemiesCount(SeekerScript.spawner.flyingEnemyNumber);
-            SeekerScript.spawner.KilledFlyingEnemiesIncrease();
-            SeekerScript.spawner.IncreaseKilledEnemyCount();
+            var tempSpawner = FindObjectOfType<TempSpawner>();
+            tempSpawner.DecreaseEnemiesCount(tempSpawner.flyingEnemyNumber);
+            tempSpawner.KilledFlyingEnemiesIncrease();
+            tempSpawner.IncreaseKilledEnemyCount();
             once = false;
         }
 

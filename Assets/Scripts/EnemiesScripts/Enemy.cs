@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +52,16 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        CurrencyManager.Instance.AddCoins(coinsForDestroy);
+        //(murakhtin): проверка на то что мы выходим из play mode в юнити
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlayingOrWillChangePlaymode &&
+             EditorApplication.isPlaying)
+        {
+            return;
+        }
+#endif
+        var currencyManager= FindObjectOfType<CurrencyManager>();
+        currencyManager.AddCoins(coinsForDestroy);
     }
 
     private void Awake()

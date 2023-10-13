@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static Player;
 
 public class Player : MonoBehaviour
 {
     public enum Weapon { Mortar = 1, Crossbow = 0, FireGun = -1 };
 
     [SerializeField] public Weapon activeGun;
-
-    public static Player Instance;
 
      Weapon topGun;
      Weapon midGun;
@@ -26,24 +20,15 @@ public class Player : MonoBehaviour
 
     private void Awake() //singleton
     {
-        topGunObj = GameObject.Find("Mortar");
-        midGunObj = GameObject.Find("Crossbow");
-        botGunObj = GameObject.Find("FireGun");
+        topGunObj = FindObjectOfType<Mortar>().gameObject;
+        midGunObj = FindObjectOfType<Crossbow>().gameObject;
+        botGunObj = FindObjectOfType<FireGun>().gameObject;
 
         topGun = Weapon.Mortar;
         midGun = Weapon.Crossbow;
         botGun = Weapon.FireGun;
 
         activeGun = midGun;
-
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -57,8 +42,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        activeGun = midGun;
-        
+        activeGun = midGun; 
     }
 
     public void CheckAndStopCoroutine(Coroutine coroutine)
@@ -125,16 +109,13 @@ public class Player : MonoBehaviour
 
     public bool CheckAbility(Weapon weapon)
     {
-        switch (weapon) {
-            case Weapon.FireGun:
-                return hasFiregunAbility;
-            case Weapon.Crossbow:
-                return hasCrossbowAbility;
-            case Weapon.Mortar:
-                return hasMortarAbility;
-            default: 
-                return false;
-        }
+        return weapon switch
+        {
+            Weapon.FireGun => hasFiregunAbility,
+            Weapon.Crossbow => hasCrossbowAbility,
+            Weapon.Mortar => hasMortarAbility,
+            _ => false,
+        };
     }
 
     public void ActivateAbility(Weapon weapon)

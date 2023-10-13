@@ -1,25 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MortarAbilityButton : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Button abilityButton;
-    [SerializeField] private Mortar mortar;
+    private Mortar mortar;
     private float abilityCooldown;
     private bool isCooldown;
     [SerializeField] TextMeshProUGUI cooldownText;
 
     private void Start()
     {
+        mortar = FindObjectOfType<Mortar>();
         mortar.OnAbilityAction += Mortar_OnAbilityAction;
         abilityCooldown = mortar.GetAbilityCooldown();
         HideCooldownText();
     }
 
-    private void Mortar_OnAbilityAction(object sender, System.EventArgs e)
+    private void Mortar_OnAbilityAction()
     {
         isCooldown = true;
     }

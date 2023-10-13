@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BombProjectile : Projectile
 {
-    public static event EventHandler OnBombExplosion;
+    public Action OnBombExplosion;
 
     Mortar mortar;
     Vector3 projectileTarget;
@@ -17,7 +17,7 @@ public class BombProjectile : Projectile
     
     private void Start()
     {
-        mortar = GameObject.Find("Mortar").GetComponent<Mortar>();
+        mortar = FindObjectOfType<Mortar>();
         damage = mortar.projectileDamage;
         projectileTarget = mortar.target;
     }
@@ -37,7 +37,7 @@ public class BombProjectile : Projectile
                 GetComponent<CircleCollider2D>().enabled = true;
 
                 if (once) {
-                    OnBombExplosion?.Invoke(this, EventArgs.Empty);
+                    OnBombExplosion?.Invoke();
                     once = false;
                 }
                 

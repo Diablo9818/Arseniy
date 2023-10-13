@@ -1,15 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class FireGun : Weapon
 {
-    public static event EventHandler OnAbilityAction;
+    public Action OnAbilityAction;
 
-    public static event EventHandler OnFireGunStartShooting;
-    public static event EventHandler OnFireGunStopShooting;
+    public Action OnFireGunStartShooting;
+    public Action OnFireGunStopShooting;
 
     public SkillManager skillsManager;
 
@@ -82,9 +79,7 @@ public class FireGun : Weapon
     private void Awake()
     {
         gameObject.AddComponent<AudioSource>();
-        ResetStaticData();
     }
-
 
     public override void Aim()
     {
@@ -94,13 +89,6 @@ public class FireGun : Weapon
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
         transform.eulerAngles = new Vector3(0, 0, Mathf.Clamp(angle, -weaponRotationClamp, weaponRotationClamp));
-    }
-
-    public static void ResetStaticData()
-    {
-        OnFireGunStartShooting = null;
-        OnFireGunStopShooting = null;
-        //OnAbilityAction = null;
     }
 
     private void Update()
@@ -144,7 +132,7 @@ public class FireGun : Weapon
         fireParticle.Play();
         fireCollider.enabled = true;
 
-        OnFireGunStartShooting?.Invoke(this, EventArgs.Empty);
+        OnFireGunStartShooting?.Invoke();
     }
 
     public void StopShoot()
@@ -163,7 +151,7 @@ public class FireGun : Weapon
         fireParticle.Stop();
         fireCollider.enabled = false;
 
-        OnFireGunStopShooting?.Invoke(this, EventArgs.Empty);
+        OnFireGunStopShooting?.Invoke();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -192,7 +180,7 @@ public class FireGun : Weapon
     {
         if (playerScript.activeGun == Player.Weapon.FireGun) {
 
-            OnAbilityAction?.Invoke(this, EventArgs.Empty);
+            OnAbilityAction?.Invoke();
             Enemy[] enemies = FindObjectsOfType<Enemy>();
             foreach (Enemy enemy in enemies) {
                 if (enemy.GetComponent<ShieldEnemy>() != null || enemy.GetComponent<StoneEnemy>() != null) {
