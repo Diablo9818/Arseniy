@@ -14,8 +14,8 @@ public class FlyingEnemy : Enemy
     Vector3 startPosition;
     private float time;
 
-    
-    
+
+
     private float cycle; // This variable increases with time and allows the sine to produce numbers between -1 and 1
     private Vector3 basePosition; // This variable maintains the location of the object without applying sine changes
     private Transform target;
@@ -24,16 +24,16 @@ public class FlyingEnemy : Enemy
     {
         target = wall.transform;
         basePosition = transform.position;
-        
+
     }
     private void Update()
     {
-        
-        if (!isAttacking && !isAttracted) 
+
+        if (!isAttacking && !isAttracted)
         {
             Move();
-        } 
-        else if (isAttacking) 
+        }
+        else if (isAttacking)
         {
             Attack();
         }

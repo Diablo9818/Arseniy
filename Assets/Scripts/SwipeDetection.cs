@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SwipeDetection : MonoBehaviour
@@ -16,7 +14,7 @@ public class SwipeDetection : MonoBehaviour
     private bool _isMobile;
 
     public float border = 0;
-    
+
     private void Start()
     {
         _isMobile = Application.isMobilePlatform;
@@ -24,24 +22,26 @@ public class SwipeDetection : MonoBehaviour
 
     private void Update()
     {
-        if(!_isMobile)
+        if (!_isMobile)
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 _isSwiping = true;
-                _tapPosition= Input.mousePosition;
+                _tapPosition = Input.mousePosition;
             }
-            else if(Input.GetMouseButtonUp(0)) {
+            else if (Input.GetMouseButtonUp(0))
+            {
                 ResetSwipe();
             }
         }
         else
         {
-            if(Input.touchCount > 0)
+            if (Input.touchCount > 0)
             {
-                if(Input.GetTouch(0).phase == TouchPhase.Began) {
-                _isSwiping= true;
-                _tapPosition = Input.GetTouch(0).position;
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    _isSwiping = true;
+                    _tapPosition = Input.GetTouch(0).position;
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Canceled ||
                     Input.GetTouch(0).phase == TouchPhase.Ended)
@@ -50,18 +50,18 @@ public class SwipeDetection : MonoBehaviour
                 }
             }
         }
-        if(Input.mousePosition.x < border)
+        if (Input.mousePosition.x < border)
         {
             CheckSwipe();
         }
-        
+
     }
 
     private void CheckSwipe()
     {
         _swipeDelta = Vector2.zero;
 
-        if(_isSwiping)
+        if (_isSwiping)
         {
             if (!_isMobile && Input.GetMouseButton(0))
                 _swipeDelta = (Vector2)Input.mousePosition - _tapPosition;
@@ -69,16 +69,16 @@ public class SwipeDetection : MonoBehaviour
                 _swipeDelta = Input.GetTouch(0).position - _tapPosition;
         }
 
-        if(_swipeDelta.magnitude > _deadZone)
+        if (_swipeDelta.magnitude > _deadZone)
         {
-            if(OnSwipeEvent != null)
+            if (OnSwipeEvent != null)
             {
                 if (Mathf.Abs(_swipeDelta.y) > Mathf.Abs(_swipeDelta.x))
                 {
                     OnSwipeEvent(_swipeDelta.y > 0 ? 1 : -1);
-                    
+
                 }
-                    
+
             }
 
             ResetSwipe();
@@ -87,7 +87,7 @@ public class SwipeDetection : MonoBehaviour
 
     private void ResetSwipe()
     {
-        _isSwiping =  false;
+        _isSwiping = false;
 
         _tapPosition = Vector2.zero;
         _swipeDelta = Vector2.zero;

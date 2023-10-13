@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class SuperArrowProjectile : Projectile
@@ -12,7 +9,8 @@ public class SuperArrowProjectile : Projectile
     {
         Enemy enemy = collision.GetComponent<Enemy>();
 
-        if (enemy != null) {
+        if (enemy != null)
+        {
 
             enemy.TakeDamage(damage, NAME_OF_WEAPON);
         }
@@ -28,7 +26,7 @@ public class SuperArrowProjectile : Projectile
 
         }
 
-        if (collision.CompareTag("Fast Enemy") )
+        if (collision.CompareTag("Fast Enemy"))
         {
             var dieComponent = collision.GetComponent<FastEnemy>();
 
@@ -38,7 +36,7 @@ public class SuperArrowProjectile : Projectile
             }
         }
 
-        if ( collision.CompareTag("FlyingEnemy"))
+        if (collision.CompareTag("FlyingEnemy"))
         {
             var dieComponent = collision.GetComponent<FlyingEnemy>();
 

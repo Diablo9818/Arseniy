@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +19,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public float damage;
     [SerializeField] public int weight;
     [SerializeField] protected float attackCooldown = 2f;
-    [SerializeField]  protected int score;
+    [SerializeField] protected int score;
     [SerializeField] protected GameManager gameManager;
     [SerializeField] protected TempSpawner enemySpawner;
     [SerializeField] private AnimationClip walkAnimationClip;
@@ -43,7 +40,7 @@ public abstract class Enemy : MonoBehaviour
     public float currentDamageResist;
     public const string BALLISTA = "Ballista";
     public const string MORTAR = "Mortar";
-    public const string FIREGUN= "FireGun";
+    public const string FIREGUN = "FireGun";
 
     float speedValue;
 
@@ -60,7 +57,7 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 #endif
-        var currencyManager= FindObjectOfType<CurrencyManager>();
+        var currencyManager = FindObjectOfType<CurrencyManager>();
         currencyManager.AddCoins(coinsForDestroy);
     }
 
@@ -81,21 +78,21 @@ public abstract class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttacking && !isAttracted) 
+        if (!isAttacking && !isAttracted)
         {
             Move();
-        } 
-        else if(isAttacking) 
+        }
+        else if (isAttacking)
         {
             Attack();
         }
-        else if(isAttracted)
+        else if (isAttracted)
         {
             BeAttracted();
         }
 
         CheckDeath();
-        
+
         healthBar.value = health;
     }
 
@@ -107,7 +104,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public  void GetStunned()
+    public void GetStunned()
     {
         speed = 0;
     }
@@ -134,8 +131,9 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void TakeDamage(float weaponDamage, string weaponName)
     {
-        
-        switch (weaponName) {
+
+        switch (weaponName)
+        {
             case BALLISTA:
                 currentDamageResist = arrowDamageResist;
                 break;
@@ -146,7 +144,7 @@ public abstract class Enemy : MonoBehaviour
                 currentDamageResist = fireDamageResist;
                 break;
         }
-            
+
 
 
         damageReduce = armor / (armor + 400);
@@ -155,7 +153,7 @@ public abstract class Enemy : MonoBehaviour
 
         healthBar.value = health;
     }
-    
+
     public virtual void Die()
     {
         animator.SetBool("IsDead", true);
@@ -178,14 +176,16 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Wall" ) {
+        if (collision.gameObject.name == "Wall")
+        {
             isAttacking = true;
         }
     }
 
     public virtual void Attack()
     {
-        if(Time.time - lastAttackTime < attackCooldown) {
+        if (Time.time - lastAttackTime < attackCooldown)
+        {
             return;
         }
         lastAttackTime = Time.time;

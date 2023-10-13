@@ -6,13 +6,13 @@ public class Player : MonoBehaviour
 
     [SerializeField] public Weapon activeGun;
 
-     Weapon topGun;
-     Weapon midGun;
-     Weapon botGun;
+    Weapon topGun;
+    Weapon midGun;
+    Weapon botGun;
 
-     public  GameObject topGunObj;
-     public  GameObject midGunObj;
-     public  GameObject botGunObj;
+    public GameObject topGunObj;
+    public GameObject midGunObj;
+    public GameObject botGunObj;
 
     private bool hasFiregunAbility;
     private bool hasCrossbowAbility;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         SwipeDetection.OnSwipeEvent += SwapWeapon;
-        
+
         //Debug.Log(toMortar);
         //Debug.Log(toCrossbow);
         //Debug.Log(toThirdWeapon);
@@ -42,12 +42,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        activeGun = midGun; 
+        activeGun = midGun;
     }
 
     public void CheckAndStopCoroutine(Coroutine coroutine)
     {
-        if(coroutine != null)
+        if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
 
     private void SwapWeapon(int i)
     {
-        if(i == 1) //SwipeUP
+        if (i == 1) //SwipeUP
         {
             //Changing WEAPON
             Weapon bridge;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
             topGunObj.transform.position = botGunObj.transform.position;
             botGunObj.transform.position = midGunObj.transform.position;
             midGunObj.transform.position = bridgeObjPos;
-            
+
 
             //Changing OBJECT
             GameObject bridgeObj;
@@ -79,7 +79,8 @@ public class Player : MonoBehaviour
             midGunObj = botGunObj;
             botGunObj = bridgeObj;
 
-        } else //SwipeDOWN
+        }
+        else //SwipeDOWN
         {
             //Changing WEAPON
             Weapon bridge;
@@ -104,7 +105,7 @@ public class Player : MonoBehaviour
 
         }
 
-        
+
     }
 
     public bool CheckAbility(Weapon weapon)
@@ -120,7 +121,8 @@ public class Player : MonoBehaviour
 
     public void ActivateAbility(Weapon weapon)
     {
-        switch (weapon) {
+        switch (weapon)
+        {
             case Weapon.FireGun:
                 hasFiregunAbility = true;
                 break;

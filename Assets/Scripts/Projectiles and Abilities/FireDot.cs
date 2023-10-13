@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FireDot : Projectile
@@ -25,7 +24,8 @@ public class FireDot : Projectile
 
     private IEnumerator DotDamage()
     {
-        for (int i = 0; i < ticks; i++) {
+        for (int i = 0; i < ticks; i++)
+        {
             parentEnemy.TakeDamage(damage, NAME_OF_WEAPON);
             yield return new WaitForSeconds(delay);
         }

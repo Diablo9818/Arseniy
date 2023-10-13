@@ -24,20 +24,24 @@ public class FiregunAbilityButton : MonoBehaviour
 
     private void Update()
     {
-        if (isCooldown) {
+        if (isCooldown)
+        {
             abilityCooldown -= Time.deltaTime;
-            if (abilityCooldown <= 0) {
+            if (abilityCooldown <= 0)
+            {
                 HideCooldownText();
                 abilityButton.interactable = true;
                 abilityCooldown = fireGun.GetAbilityCooldown();
                 isCooldown = false;
-            } else {
+            }
+            else
+            {
                 abilityButton.interactable = false;
                 ShowCooldownText();
                 cooldownText.text = Mathf.Ceil(abilityCooldown).ToString();
             }
         }
-        
+
     }
 
     public void ShowCooldownText()

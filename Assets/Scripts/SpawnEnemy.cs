@@ -24,11 +24,12 @@ public class SpawnEnemy : MonoBehaviour
         StartCoroutine(SpawnEnemies());
     }
 
-     private IEnumerator SpawnEnemies()
-     {
+    private IEnumerator SpawnEnemies()
+    {
         /*-----1 WAVE-----*/
-        for (int i = 0; i < 7; i++) {
-            Instantiate(_enemies[0],RandomPosition(minY, maxY), Quaternion.identity);
+        for (int i = 0; i < 7; i++)
+        {
+            Instantiate(_enemies[0], RandomPosition(minY, maxY), Quaternion.identity);
         }
         yield return new WaitForSeconds(spawnTime2);
         /*-----2 WAVE-----*/
@@ -57,7 +58,7 @@ public class SpawnEnemy : MonoBehaviour
 
 
         yield return null;
-     }
+    }
 
     private Vector3 RandomPosition(float minY, float maxY)
     {

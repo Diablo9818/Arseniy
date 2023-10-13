@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro.Examples;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class TempSpawner : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class TempSpawner : MonoBehaviour
     [SerializeField] private int maxEnemies;
     [SerializeField] private float spawnDelay = 2f;
     [SerializeField] private float forBigMinY = -0.27f;
-    [SerializeField] private float forBigMaxY = 2.97f;    
+    [SerializeField] private float forBigMaxY = 2.97f;
     [SerializeField] private float forSmallMinY = -0.27f;
     [SerializeField] private float forSmallMaxY = -1.9f;
     [SerializeField] private int enemiesKillCountToOpenPanel;
@@ -81,7 +78,7 @@ public class TempSpawner : MonoBehaviour
             }
         }
 
-        if(enemyKillCount >= enemiesKillCountToOpenPanel)
+        if (enemyKillCount >= enemiesKillCountToOpenPanel)
         {
             ShowAbilityPanel();
             enemyKillCount = 0;
@@ -124,7 +121,7 @@ public class TempSpawner : MonoBehaviour
     {
         flyingEnemiesCount++;
     }
-    
+
     public void KilledShieldEnemiesIncrease()
     {
         shieldEnemiesCount++;
@@ -132,14 +129,14 @@ public class TempSpawner : MonoBehaviour
 
     public void DecreaseEnemiesCount(int enemyNumber)
     {
-        currentEnemies-=enemyNumber;
+        currentEnemies -= enemyNumber;
     }
 
     private void SpawnEnemy(string tag, float minY, float maxY)
     {
         GameObject enemyPrefab = GetPrefabByTag(tag);
         float randomY = Random.Range(minY, maxY);
-        Vector3 spawnPosition = new Vector3(transform.position.x, randomY, transform.position.z);
+        Vector3 spawnPosition = new(transform.position.x, randomY, transform.position.z);
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
     }
 

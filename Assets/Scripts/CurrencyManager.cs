@@ -1,5 +1,5 @@
-using System.Collections;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CurrencyManager : MonoBehaviour
@@ -34,7 +34,7 @@ public class CurrencyManager : MonoBehaviour
     private void Start()
     {
         var otherCurrencyManagers = FindObjectsOfType<CurrencyManager>();
-        if(otherCurrencyManagers.Length > 1)
+        if (otherCurrencyManagers.Length > 1)
         {
             Debug.LogError("Динь дон, больше одного currency managerа на сцене");
         }
@@ -79,7 +79,8 @@ public class CurrencyManager : MonoBehaviour
             CurrEnergy -= EnergyForRun;
             _energyTextUpdated.UpdateText();
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

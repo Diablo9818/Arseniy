@@ -25,24 +25,25 @@ public class SuperBombProjectile : Projectile
     }
     private void Update()
     {
-        if(mortar != null)
+        if (mortar != null)
         {
-            if(gameObject.transform.position != projectileTarget) 
+            if (gameObject.transform.position != projectileTarget)
             {
                 transform.position = Vector3.MoveTowards(transform.position, projectileTarget, mortar.projectileSpeed * Time.deltaTime);
-            } 
-            else 
+            }
+            else
             {
                 spriteRenderer.sprite = ActivatedBombSprite;
                 transform.GetChild(0).gameObject.SetActive(true);
                 transform.GetChild(1).gameObject.SetActive(true);
                 GetComponent<CircleCollider2D>().enabled = true;
                 StartCoroutine(DestroyCoroutine(destroyTime));
-                if (once) {
+                if (once)
+                {
                     OnSuperBombActivation?.Invoke();
                     once = false;
                 }
-                
+
             }
         }
     }

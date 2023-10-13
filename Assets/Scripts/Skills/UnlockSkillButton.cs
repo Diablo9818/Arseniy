@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets
 {
-    public class UnlockSkillButton: MonoBehaviour
+    public class UnlockSkillButton : MonoBehaviour
     {
         SkillManager skillManager;
         private void Awake()
@@ -27,7 +22,7 @@ namespace Assets
         public void UnlockFireGunLeft()
         {
             skillManager.fireGunleftFireEnable = true;
-        }        
+        }
         public void UnlockFireGunRight()
         {
             skillManager.fireGunrightFireEnable = true;
@@ -36,7 +31,7 @@ namespace Assets
         public void UnlockBigYadro()
         {
             skillManager.bigYadroEnable = true;
-            skillManager.smallYadroEnable=false;
+            skillManager.smallYadroEnable = false;
         }
 
         public void UnlockSmallYadro()
