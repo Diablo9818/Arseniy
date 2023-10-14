@@ -7976,6 +7976,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868395972}
   m_CullTransparentMesh: 1
+--- !u!1 &880310843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880310845}
+  - component: {fileID: 880310844}
+  m_Layer: 0
+  m_Name: CurrencyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &880310844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880310843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd8017dd42461445a449cdd96a4bb0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinsForEnergy: 0
+  EnergyPerTick: 0
+  MaxEnergy: 0
+  EnergyForRun: 0
+  CurrEnergy: 0
+  coins: 0
+--- !u!4 &880310845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880310843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.610153, y: -0.9905844, z: 0.008797536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &916579483
 GameObject:
   m_ObjectHideFlags: 0
@@ -8650,7 +8700,7 @@ MonoBehaviour:
   buttonScale: 1.3
   skillsManager: {fileID: 0}
   target: {x: 0, y: 0, z: 0}
-  projectileDamage: 50
+  projectileDamage: 1
   projectileSpeed: 8.67
   reloadTime: 0.69
   superProjectile: {fileID: 132967213884406870, guid: ce2792e8ee6a9354fb54edc915e0ceaa, type: 3}
@@ -19439,7 +19489,7 @@ MonoBehaviour:
   forBigMaxY: 2.97
   forSmallMinY: -0.27
   forSmallMaxY: -1.9
-  enemiesKillCountToOpenPanel: 2
+  enemiesKillCountToOpenPanel: 1
   panel: {fileID: 806145054}
   fastEnemiesCount: 0
   flyingEnemiesCount: 0
@@ -20528,3 +20578,4 @@ SceneRoots:
   - {fileID: 840898650}
   - {fileID: 1891475955}
   - {fileID: 1610620466}
+  - {fileID: 880310845}

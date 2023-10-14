@@ -84,7 +84,7 @@ public class TempSpawner : MonoBehaviour
             enemyKillCount = 0;
         }
 
-        Debug.Log("enemyKillCount: " + enemyKillCount);
+       // Debug.Log("enemyKillCount: " + enemyKillCount);
     }
 
     public void IncreaseKilledEnemyCount()

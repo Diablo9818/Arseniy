@@ -63,7 +63,9 @@ public class CurrencyManager : MonoBehaviour
             {
                 CurrEnergy = MaxEnergy;
             }
-            _energyTextUpdated.UpdateText();
+
+            if(_energyTextUpdated)
+                _energyTextUpdated.UpdateText();
         }
     }
 
@@ -77,7 +79,8 @@ public class CurrencyManager : MonoBehaviour
         if (CurrEnergy >= EnergyForRun)
         {
             CurrEnergy -= EnergyForRun;
-            _energyTextUpdated.UpdateText();
+            if(_energyTextUpdated)
+                _energyTextUpdated.UpdateText();
             return true;
         }
         else
@@ -107,7 +110,9 @@ public class CurrencyManager : MonoBehaviour
                 {
                     CurrEnergy = MaxEnergy;
                 }
-                _energyTextUpdated.UpdateText();
+
+                if(_energyTextUpdated)
+                    _energyTextUpdated.UpdateText();
             }
             coins = PlayerPrefs.GetInt("AppExitCoins");
         }

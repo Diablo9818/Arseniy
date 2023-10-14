@@ -8,15 +8,9 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] private List<Transform> skillPlaces;
     [SerializeField] private GameObject Panel;
 
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void OnEnable()
     {
         CreateSkills();
-
     }
 
     private void OnDisable()
