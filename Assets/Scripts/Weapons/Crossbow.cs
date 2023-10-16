@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using System;
 
 public class Crossbow : Weapon
 {
@@ -106,11 +106,7 @@ public class Crossbow : Weapon
         {
             return;
         }
-        if (skillsManager.crossbowCanDoubleShot)
-        {
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.5f, 0f), projectileSpawnerTransform.rotation);
-            CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f), projectileSpawnerTransform.rotation);
-        }
+
         else if (skillsManager.crossbowPlusOneArrow)
         {
             CreateProjectile(projectile, FirstProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, 30));
@@ -125,7 +121,24 @@ public class Crossbow : Weapon
         }
         else if (skillsManager.crossbowPlusFourArrow)
         {
-            CreateProjectile(projectile, FourthProjectileSpawnerTransform.position, Quaternion.Euler(0, 0, -60));
+            CreateAbilityProjectile(projectile, FirstProjectileSpawnerTransform.position, FirstProjectileSpawnerTransform.rotation, 30);
+            CreateAbilityProjectile(projectile, SecondProjectileSpawnerTransform.position,SecondProjectileSpawnerTransform.rotation, -30);
+            CreateAbilityProjectile(projectile, ThirdProjectileSpawnerTransform.position, ThirdProjectileSpawnerTransform.rotation, 30);
+            CreateAbilityProjectile(projectile, FourthProjectileSpawnerTransform.position, FourthProjectileSpawnerTransform.rotation, -30);
+
+            if (skillsManager.crossbowCanDoubleShot)
+            {
+                DoubleShoot();
+            }
+            else
+            {
+                CreateProjectile(projectile, projectileSpawnerTransform.position, projectileSpawnerTransform.rotation);
+            }
+        }
+
+        if (skillsManager.crossbowCanDoubleShot)
+        {
+            DoubleShoot();
         }
         else
         {
@@ -136,6 +149,29 @@ public class Crossbow : Weapon
         StartCoroutine(Reload());
 
         OnBallistaDefaultShot?.Invoke();
+    }
+
+    private void DoubleShoot()
+    {
+        CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, 0.5f, 0f), projectileSpawnerTransform.rotation);
+        CreateProjectile(projectile, projectileSpawnerTransform.position + new Vector3(0f, -0.5f, 0f), projectileSpawnerTransform.rotation);
+    }
+
+    private void CreateAbilityProjectile(GameObject projectile, Vector3 spawnPosition, Quaternion rotation,float angleInDegrees)
+    {
+        float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
+        rotation = Quaternion.Euler(0, 0, angleInDegrees);
+
+        Vector3 launchDirection = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians), 0.0f);
+
+        var sentProjectile = GameObject.Instantiate(projectile, spawnPosition, rotation);
+        sentProjectile.transform.rotation = rotation;
+        sentProjectile.GetComponent<Rigidbody2D>().AddForce(launchDirection * projectileSpeed, ForceMode2D.Impulse);
+
+        if (sentProjectile.TryGetComponent(out ArrowProjectile arrowProjectile))
+        {
+            arrowProjectile.damage = projectileDamage;
+        }
     }
 
     private void CreateProjectile(GameObject projectile, Vector3 spawnPosition, Quaternion rotation)
