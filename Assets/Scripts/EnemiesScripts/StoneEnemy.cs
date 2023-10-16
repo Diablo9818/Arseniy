@@ -8,14 +8,14 @@ public class StoneEnemy : Enemy
     [SerializeField] private Transform _throwPoint;
 
     [Header("----------MOVEMENT PROPERTIES----------")]
-    [SerializeField] private int _stopSteps = 600;
+    [SerializeField] private int _stopSteps = 600; 
     [SerializeField] private float _stopDuration = 7f;
 
     private float defoldDamage = 214.4531f;
     private float defoldHealth = 100f;
 
-    private int _steps = 0;
-    private bool _isStopping = false;
+    private int _steps = 0; 
+    private bool _isStopping = false; 
     private float _stopTime = 0f;
 
     private void Update()

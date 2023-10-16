@@ -22,8 +22,7 @@ public class ShieldEnemy : Enemy
     public void TakeDamage(float weaponDamage, string weaponName, GameObject projectile)
     {
 
-        switch (weaponName)
-        {
+        switch (weaponName) {
             case BALLISTA:
                 currentDamageResist = arrowDamageResist;
                 break;
@@ -37,31 +36,25 @@ public class ShieldEnemy : Enemy
 
         damageReduce = armor / (armor + 400);
         actualDamage = (weaponDamage * (1 - damageReduce)) * (1 - currentDamageResist);
-        if (weaponName == MORTAR)
-        {
-            if (isShieldAlive)
-            {
-                if (projectile.transform.position.x > transform.position.x - shieldBombDamageXAxisReduce)
-                {
+        if(weaponName == MORTAR) {
+            if(isShieldAlive) {
+                if (projectile.transform.position.x > transform.position.x - shieldBombDamageXAxisReduce) {
                     health -= actualDamage;
                     healthBar.value = health;
                 }
-            }
-            else
-            {
+            } else {
                 health -= actualDamage;
                 healthBar.value = health;
             }
-
-        }
-
+            
+        } 
+        
     }
 
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Wall" && triggerHit)
-        {
+        if (collision.gameObject.name == "Wall" && triggerHit) {
             isAttacking = true;
         }
         triggerHit = true;

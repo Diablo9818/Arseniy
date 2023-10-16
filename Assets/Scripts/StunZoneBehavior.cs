@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StunZoneBehavior : MonoBehaviour
@@ -8,7 +10,7 @@ public class StunZoneBehavior : MonoBehaviour
 
         if (enemy != null)
         {
-            enemy.GetStunned();
+                enemy.GetStunned();
         }
     }
 }

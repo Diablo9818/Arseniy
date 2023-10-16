@@ -17,19 +17,17 @@ public class ArrowProjectile : Projectile
     {
         Enemy enemy = collision.GetComponent<Enemy>();
 
-        if (enemy != null && !hasEntered)
-        {
+        if (enemy != null && !hasEntered) {
 
             enemy.TakeDamage(damage, NAME_OF_WEAPON);
 
-            if (enemy.GetComponent<Shield>() == null && enemy.GetComponent<StoneEnemy>() == null)
-            {
+            if (enemy.GetComponent<Shield>() == null && enemy.GetComponent<StoneEnemy>() == null) {
                 OnArrowHit?.Invoke();
             }
             hasEntered = true;
             Destroy(gameObject);
         }
-
+        
 
         if (collision.CompareTag("Border"))
         {

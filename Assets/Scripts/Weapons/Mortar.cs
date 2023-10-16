@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class Mortar : Weapon
 {
@@ -209,6 +209,12 @@ public class Mortar : Weapon
 
         currentDamageLevel++;
     }
+
+    public void SetDamageLevel(DamageLevel level)
+    {
+        currentDamageLevel = level;
+    }
+
     public DamageLevel GetCurrentDamageLevel()
     {
         return currentDamageLevel;

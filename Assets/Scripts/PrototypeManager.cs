@@ -1,15 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PrototypeManager : MonoBehaviour
 {
-
+    
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject movingEnemyPrefab;
     [SerializeField] GameObject prototypeMenu;
 
 
-
+    
     public void HidePrototypeMenu()
     {
         prototypeMenu.SetActive(false);
@@ -35,7 +38,7 @@ public class PrototypeManager : MonoBehaviour
     public void SpawnMovingEnemy()
     {
         Instantiate(movingEnemyPrefab, new Vector3(5f, 0f, 0), Quaternion.identity);
-
+        
     }
 
     public void ResetGame()

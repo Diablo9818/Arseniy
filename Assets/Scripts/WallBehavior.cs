@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class WallBehavior : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class WallBehavior : MonoBehaviour
     [SerializeField] private GameObject myGameObject;
     [SerializeField] private GameManager gameManager;
 
+    private DateTime PlayTimeMetric;
 
     [SerializeField] private Slider healthBar;
 
@@ -23,15 +26,17 @@ public class WallBehavior : MonoBehaviour
         healthBar.value = _health;
         _renderer = GetComponent<Renderer>();
         Physics2D.IgnoreLayerCollision(gameObject.layer, ignoredCollider.gameObject.layer, true);
+
+        PlayTimeMetric = DateTime.Now;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_health < 0)
+       if(_health < 0)
         {
             Die();
-        }
+        } 
     }
 
     public void TakeDamage(float damage)
@@ -43,6 +48,11 @@ public class WallBehavior : MonoBehaviour
 
     private void Die()
     {
+        TimeSpan secondsInGame = PlayTimeMetric - DateTime.Now;
+        Dictionary<string, object> parameters = new Dictionary<string, object>() { { "time_seconds", secondsInGame.TotalSeconds } };
+        AppMetrica.Instance.ReportEvent("one_game_play_time", parameters);
+        AppMetrica.Instance.SendEventsBuffer();
+
         Time.timeScale = 0.0f;
         gameManager.GameOver();
     }

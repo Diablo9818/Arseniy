@@ -2,9 +2,12 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShopUI : MonoBehaviour
 {
+    [SerializeField] private UpgradesMailmanSO upgradesMailman;
+
     [SerializeField] private TextMeshProUGUI coinsText;
 
     [SerializeField] private Button fireGunAbilityBuy;
@@ -83,6 +86,17 @@ public class ShopUI : MonoBehaviour
 
     CurrencyManager _currencyManager;
 
+    private void Awake()
+    {
+        _currencyManager = FindObjectOfType<CurrencyManager>();
+
+        mortar.SetDamageLevel(upgradesMailman.MortarDamageLevel);
+        crossbow.SetDamageLevel(upgradesMailman.CrossbowDamageLevel);
+        firegun.SetUpgradeLevel(upgradesMailman.FlamethrowerDamageLevel, upgradesMailman.FlamethrowerDotDamageLevel, upgradesMailman.FlamethrowerDotDurationLevel);
+
+        UpdateAllButtons();
+    }
+
     private void OnEnable()
     {
         UpdateCoinsAmount();
@@ -90,7 +104,6 @@ public class ShopUI : MonoBehaviour
 
     private void Start()
     {
-        _currencyManager = FindObjectOfType<CurrencyManager>();
         fireGunAbilityBuyText.text = $"{firegunAbilityPrice}";
         crossbowAbilityBuyText.text = $"{crossbowAbilityPrice}";
         mortarAbilityBuyText.text = $"{mortarAbilityPrice}";
@@ -98,14 +111,17 @@ public class ShopUI : MonoBehaviour
         fireGunAbilityBuy.onClick.AddListener(() =>
         {
             TryToBuyAbility(Player.Weapon.FireGun);
+            upgradesMailman.isFireGunAbilityBought = true;
         });
         mortarAbilityBuy.onClick.AddListener(() =>
         {
             TryToBuyAbility(Player.Weapon.Mortar);
+            upgradesMailman.isMortarAbilityBought = true;
         });
         crossbowAbilityBuy.onClick.AddListener(() =>
         {
             TryToBuyAbility(Player.Weapon.Crossbow);
+            upgradesMailman.isCrossbowAbilityBought = true;
         });
 
         upgradeFiregunDamageButton.onClick.AddListener(() =>
@@ -172,7 +188,6 @@ public class ShopUI : MonoBehaviour
                 Debug.Log("Not enough money");
             }
         });
-
     }
 
     private void Update()
@@ -233,12 +248,6 @@ public class ShopUI : MonoBehaviour
                 }
                 break;
         }
-    }
-
-
-    private void Show(GameObject gameObject)
-    {
-        gameObject.SetActive(true);
     }
 
     private void Hide(GameObject gameObject)
@@ -347,5 +356,14 @@ public class ShopUI : MonoBehaviour
                 break;
         }
 
+    }
+
+    private void OnDisable()
+    {
+        upgradesMailman.CrossbowDamageLevel = crossbow.GetCurrentDamageLevel();
+        upgradesMailman.MortarDamageLevel = mortar.GetCurrentDamageLevel();
+        upgradesMailman.FlamethrowerDamageLevel = firegun.GetCurrentDamageLevel();
+        upgradesMailman.FlamethrowerDotDamageLevel = firegun.GetCurrentDotDamageLevel();
+        upgradesMailman.FlamethrowerDotDurationLevel = firegun.GetCurrentDotDurationLevel();
     }
 }

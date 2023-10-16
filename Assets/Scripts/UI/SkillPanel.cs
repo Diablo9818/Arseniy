@@ -1,12 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillPanel : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Button exitButton;
+    [SerializeField] private Button exitButton;
     [SerializeField] private List<SkillButton> skills;
     [SerializeField] private List<Transform> skillPlaces;
     [SerializeField] private GameObject Panel;
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void OnEnable()
     {

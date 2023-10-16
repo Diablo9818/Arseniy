@@ -1,6 +1,8 @@
-using System;
 using System.Collections;
+using System;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class CurrencyManager : MonoBehaviour
 {
@@ -10,12 +12,15 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] public int EnergyForRun;
     public int CurrEnergy;
     [SerializeField] private int coins;
-
     private Coroutine myCoroutine;
     EnergyTextUpdater _energyTextUpdated;
 
+    private DateTime SessionTimeMetric;
+
     private void Awake()
     {
+        SessionTimeMetric = DateTime.Now;
+
         _energyTextUpdated = FindObjectOfType<EnergyTextUpdater>();
         string appExitTimeStr = PlayerPrefs.GetString("AppExitTime", "");
         CurrEnergy = PlayerPrefs.GetInt("AppExitEnergy");
@@ -34,11 +39,12 @@ public class CurrencyManager : MonoBehaviour
     private void Start()
     {
         var otherCurrencyManagers = FindObjectsOfType<CurrencyManager>();
-        if (otherCurrencyManagers.Length > 1)
+        if(otherCurrencyManagers.Length > 1)
         {
             Debug.LogError("Динь дон, больше одного currency managerа на сцене");
         }
         myCoroutine = StartCoroutine(MyCoroutine());
+        DontDestroyOnLoad(gameObject);
     }
 
     public void StopMyCoroutine()
@@ -63,9 +69,7 @@ public class CurrencyManager : MonoBehaviour
             {
                 CurrEnergy = MaxEnergy;
             }
-
-            if(_energyTextUpdated)
-                _energyTextUpdated.UpdateText();
+            _energyTextUpdated.UpdateText();
         }
     }
 
@@ -79,11 +83,9 @@ public class CurrencyManager : MonoBehaviour
         if (CurrEnergy >= EnergyForRun)
         {
             CurrEnergy -= EnergyForRun;
-            if(_energyTextUpdated)
-                _energyTextUpdated.UpdateText();
+            _energyTextUpdated.UpdateText();
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -110,9 +112,7 @@ public class CurrencyManager : MonoBehaviour
                 {
                     CurrEnergy = MaxEnergy;
                 }
-
-                if(_energyTextUpdated)
-                    _energyTextUpdated.UpdateText();
+                _energyTextUpdated.UpdateText();
             }
             coins = PlayerPrefs.GetInt("AppExitCoins");
         }
@@ -123,6 +123,11 @@ public class CurrencyManager : MonoBehaviour
         PlayerPrefs.SetString("AppExitTime", DateTime.Now.ToString());
         PlayerPrefs.SetInt("AppExitEnergy", CurrEnergy);
         PlayerPrefs.SetInt("AppExitCoins", coins);
+
+        TimeSpan secondsInGame = SessionTimeMetric - DateTime.Now;
+        Dictionary<string, object> parameters = new Dictionary<string, object>() { { "time_seconds", secondsInGame.TotalSeconds } };
+        AppMetrica.Instance.ReportEvent("session_play_time", parameters);
+        AppMetrica.Instance.SendEventsBuffer();
     }
 
     public void AddCoins(int coinsToAdd)

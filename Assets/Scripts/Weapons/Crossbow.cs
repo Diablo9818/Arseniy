@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class Crossbow : Weapon
 {
@@ -239,5 +239,9 @@ public class Crossbow : Weapon
     public float GetCurrentDamage()
     {
         return projectileDamage;
+    }
+    public void SetDamageLevel(DamageLevel level)
+    {
+        currentDamageLevel = level;
     }
 }

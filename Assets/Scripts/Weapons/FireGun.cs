@@ -70,9 +70,9 @@ public class FireGun : Weapon
 
     public enum DotDamageLevel
     {
-        Level1 = 1,
-        Level2 = 2,
-        Level3 = 3,
+        Level1 = 1, 
+        Level2 = 2, 
+        Level3 = 3, 
         Level4 = 4
     }
 
@@ -94,29 +94,22 @@ public class FireGun : Weapon
     private void Update()
     {
 
-        if (playerScript.activeGun == Player.Weapon.FireGun)
-        {
+        if (playerScript.activeGun == Player.Weapon.FireGun) {
             abilityButtonUI.transform.localScale = new Vector3(buttonScale, buttonScale, 1);
-            if (Input.GetMouseButton(1))
-            {
+            if (Input.GetMouseButton(1)) {
                 Aim();
-                if (Input.GetMouseButtonDown(0))
-                {
+                if (Input.GetMouseButtonDown(0)) {
                     Shoot();
                 }
             }
-            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
-            {
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) {
                 StopShoot();
             }
-        }
-        else
-        {
+        } else {
             abilityButtonUI.transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
-        if (playerScript.activeGun != Player.Weapon.FireGun)
-        {
+        if (playerScript.activeGun != Player.Weapon.FireGun) {
             StopShoot();
         }
 
@@ -130,7 +123,7 @@ public class FireGun : Weapon
             leftFireParticle.Play();
             leftfireCollider.enabled = true;
         }
-        if (skillsManager.fireGunrightFireEnable)
+        if(skillsManager.fireGunrightFireEnable)
         {
             rightFireParticle.Play();
             rightfireCollider.enabled = true;
@@ -164,26 +157,19 @@ public class FireGun : Weapon
     private void OnTriggerStay2D(Collider2D collision)
     {
         Enemy enemy = collision.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            if (collision.tag == "Enemy With Shield")
-            {
-                if (collision.GetComponent<ShieldEnemy>().isShieldAlive == false)
-                {
+        if (enemy != null) {
+            if (collision.tag == "Enemy With Shield") {
+                if (collision.GetComponent<ShieldEnemy>().isShieldAlive == false) {
                     collision.GetComponent<ShieldEnemy>().TakeDamage(damage * Time.fixedDeltaTime, NAME_OF_WEAPON);
 
-                    if (!collision.GetComponent<FireDot>())
-                    {
+                    if (!collision.GetComponent<FireDot>()) {
                         collision.gameObject.AddComponent<FireDot>();
                     }
                 }
-            }
-            else
-            {
+            } else {
                 collision.GetComponent<Enemy>().TakeDamage(damage * Time.fixedDeltaTime, NAME_OF_WEAPON);
 
-                if (!collision.GetComponent<FireDot>())
-                {
+                if (!collision.GetComponent<FireDot>()) {
                     collision.gameObject.AddComponent<FireDot>();
                 }
             }
@@ -192,24 +178,17 @@ public class FireGun : Weapon
 
     public void FireGunAbility()
     {
-        if (playerScript.activeGun == Player.Weapon.FireGun)
-        {
+        if (playerScript.activeGun == Player.Weapon.FireGun) {
 
             OnAbilityAction?.Invoke();
             Enemy[] enemies = FindObjectsOfType<Enemy>();
-            foreach (Enemy enemy in enemies)
-            {
-                if (enemy.GetComponent<ShieldEnemy>() != null || enemy.GetComponent<StoneEnemy>() != null)
-                {
+            foreach (Enemy enemy in enemies) {
+                if (enemy.GetComponent<ShieldEnemy>() != null || enemy.GetComponent<StoneEnemy>() != null) {
                     float onePercentHealth = enemy.maxHealth / 100;
                     enemy.health -= onePercentHealth * percentOfBigEnemies;
-                }
-                else if (enemy.GetComponent<Shield>() != null)
-                {
+                } else if (enemy.GetComponent<Shield>() != null) {
                     // no damage to shield
-                }
-                else
-                {
+                } else {
                     float onePercentHealth = enemy.maxHealth / 100;
                     enemy.health -= onePercentHealth * percentOfSmallEnemies;
                 }
@@ -218,14 +197,13 @@ public class FireGun : Weapon
             Vector3 explosionPosition = new Vector3(2.5f, 0.25f, 0f);
             Instantiate(explosionPrefab, explosionPosition, Quaternion.identity);
 
-
+            
         }
     }
 
     private void HandleUpgrading()
     {
-        switch (currentDamageLevel)
-        {
+        switch (currentDamageLevel) {
             case DamageLevel.Level1:
                 damage = firegunDamageLevel1;
                 break;
@@ -240,8 +218,7 @@ public class FireGun : Weapon
                 break;
         }
 
-        switch (currentDotDamageLevel)
-        {
+        switch (currentDotDamageLevel) {
             case DotDamageLevel.Level1:
                 dotDamage = dotDamageLevel1;
                 break;
@@ -256,8 +233,7 @@ public class FireGun : Weapon
                 break;
         }
 
-        switch (currentDotDurationLevel)
-        {
+        switch (currentDotDurationLevel) {
             case DotDurationLevel.Level1:
                 dotTicks = dotDurationLevel1;
                 break;
@@ -271,6 +247,13 @@ public class FireGun : Weapon
                 dotTicks = dotDurationLevel4;
                 break;
         }
+    }
+
+    public void SetUpgradeLevel(DamageLevel DL, DotDamageLevel DDL, DotDurationLevel DOTDL)
+    {
+        currentDamageLevel = DL;
+        currentDotDamageLevel = DDL;
+        currentDotDurationLevel = DOTDL;
     }
 
     public float GetAbilityCooldown()

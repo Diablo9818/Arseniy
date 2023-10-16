@@ -1,12 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyAfterAnimation : MonoBehaviour
 {
-    private Animator animator;
+    private Animator animator; 
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>(); 
     }
 
     private void Update()

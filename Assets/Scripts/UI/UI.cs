@@ -1,13 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] private Button crossBowAbility;
-    [SerializeField] private Button firegunAbility;
-    [SerializeField] private Button mortarAbility;
-
     [SerializeField] private bool isPauseActive = false;
     [SerializeField] private GameObject pauseObject;
 
@@ -16,50 +11,32 @@ public class UI : MonoBehaviour
     private void Start()
     {
         _currencyManager = FindObjectOfType<CurrencyManager>();
-        Hide(crossBowAbility.gameObject);
-        Hide(firegunAbility.gameObject);
-        Hide(mortarAbility.gameObject);
-    }
 
-    private void ShopUI_OnMortarAbilityBought(object sender, System.EventArgs e)
-    {
-        Show(mortarAbility.gameObject);
-    }
-
-    private void ShopUI_OnFiregunAbilityBought(object sender, System.EventArgs e)
-    {
-        Show(firegunAbility.gameObject);
-    }
-
-    private void ShopUI_OnCrossbowAbilityBought(object sender, System.EventArgs e)
-    {
-        Show(crossBowAbility.gameObject);
-    }
-
-    private void Show(GameObject gameObject)
-    {
-        gameObject.SetActive(true);
-    }
-
-    private void Hide(GameObject gameObject)
-    {
-        gameObject.SetActive(false);
     }
 
     public void ToMainMenu()
     {
         SceneManager.LoadScene(0);
+
+        AppMetrica.Instance.ReportEvent("exit_to_menu_button_click");
+        AppMetrica.Instance.SendEventsBuffer();
     }
 
     public void QuitGame()
     {
         Application.Quit();
+
+        AppMetrica.Instance.ReportEvent("application_exit_button_click");
+        AppMetrica.Instance.SendEventsBuffer();
     }
     public void StartGame()
     {
         if (_currencyManager.UseEnergy())
         {
             SceneManager.LoadScene(1);
+
+            AppMetrica.Instance.ReportEvent("start_game_button_click");
+            AppMetrica.Instance.SendEventsBuffer();
         }
     }
     public void RestartGame()
@@ -68,6 +45,9 @@ public class UI : MonoBehaviour
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            AppMetrica.Instance.ReportEvent("restart_game_button_click");
+            AppMetrica.Instance.SendEventsBuffer();
         }
     }
 
@@ -79,12 +59,29 @@ public class UI : MonoBehaviour
             pauseObject.SetActive(true);
             isPauseActive = true;
             Time.timeScale = 0;
+
+            AppMetrica.Instance.PauseSession();
         }
         else
         {
             pauseObject.SetActive(false);
             isPauseActive = false;
             Time.timeScale = 1;
+
+            AppMetrica.Instance.ResumeSession();
         }
+        AppMetrica.Instance.SendEventsBuffer();
+    }
+
+    public void SettingsMenuMetric()
+    {
+        AppMetrica.Instance.ReportEvent("open_settings_button_click");
+        AppMetrica.Instance.SendEventsBuffer();
+    }
+
+    public void ShopMetric()
+    {
+        AppMetrica.Instance.ReportEvent("open_shop_button_click");
+        AppMetrica.Instance.SendEventsBuffer();
     }
 }

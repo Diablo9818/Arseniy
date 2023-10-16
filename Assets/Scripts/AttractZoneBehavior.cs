@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AttractZoneBehavior : MonoBehaviour
@@ -8,7 +10,7 @@ public class AttractZoneBehavior : MonoBehaviour
 
         if (enemy != null)
         {
-            if (collision.CompareTag("Fast Enemy") || collision.CompareTag("FlyingEnemy"))
+            if(collision.CompareTag("Fast Enemy") || collision.CompareTag("FlyingEnemy"))
             {
                 enemy.GetAttracted();
             }

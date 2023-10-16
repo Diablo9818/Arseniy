@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public abstract class Weapon : MonoBehaviour
 
     [SerializeField] public Transform projectileSpawnerTransform;
     [SerializeField] private List<SkillButton> skill;
-
+    
     public abstract void Aim();
 
     public abstract void Shoot();
@@ -33,7 +34,7 @@ public abstract class Weapon : MonoBehaviour
 
         projectileSpawnerTransform = gameObject.transform.GetChild(0);
     }
-
+ 
     public void CrosshairUnHide()
     {
         crosshair.GetComponent<Renderer>().enabled = true;
