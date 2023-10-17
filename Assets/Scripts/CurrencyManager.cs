@@ -29,8 +29,8 @@ public class CurrencyManager : MonoBehaviour
             DateTime appExitTime = DateTime.Parse(appExitTimeStr);
             TimeSpan timeSpentOutside = DateTime.Now - appExitTime;
             CurrEnergy += (int)((int)timeSpentOutside.TotalMinutes / MinsForEnergy * EnergyPerTick);
-            BalanceEnergy();
         }
+        BalanceEnergy();
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class CurrencyManager : MonoBehaviour
         var otherCurrencyManagers = FindObjectsOfType<CurrencyManager>();
         if(otherCurrencyManagers.Length > 1)
         {
-            Debug.LogError("Динь дон, больше одного currency managerа на сцене");
+            Debug.LogError("Г„ГЁГ­Гј Г¤Г®Г­, ГЎГ®Г«ГјГёГҐ Г®Г¤Г­Г®ГЈГ® currency managerГ  Г­Г  Г±Г¶ГҐГ­ГҐ");
         }
         myCoroutine = StartCoroutine(MyCoroutine());
         DontDestroyOnLoad(gameObject);
