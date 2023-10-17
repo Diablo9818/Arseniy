@@ -5558,9 +5558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4944fd182e3fd864a8a607c4e981c793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crossBowAbility: {fileID: 568681853}
-  firegunAbility: {fileID: 1827447703}
-  mortarAbility: {fileID: 1063703330}
   isPauseActive: 0
   pauseObject: {fileID: 0}
 --- !u!1 &852374857
@@ -6832,7 +6829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.008, y: 0.9316727}
   m_AnchorMax: {x: 0.0715625, y: 0.98}
-  m_AnchoredPosition: {x: 0.27954102, y: 240.00003}
+  m_AnchoredPosition: {x: -13.099976, y: 214.66}
   m_SizeDelta: {x: -0.55908203, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1094022448

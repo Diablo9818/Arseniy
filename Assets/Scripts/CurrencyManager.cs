@@ -29,10 +29,7 @@ public class CurrencyManager : MonoBehaviour
             DateTime appExitTime = DateTime.Parse(appExitTimeStr);
             TimeSpan timeSpentOutside = DateTime.Now - appExitTime;
             CurrEnergy += (int)((int)timeSpentOutside.TotalMinutes / MinsForEnergy * EnergyPerTick);
-            if (CurrEnergy >= MaxEnergy)
-            {
-                CurrEnergy = MaxEnergy;
-            }
+            BalanceEnergy();
         }
     }
 
@@ -108,10 +105,7 @@ public class CurrencyManager : MonoBehaviour
                 DateTime appExitTime = DateTime.Parse(appExitTimeStr);
                 TimeSpan timeSpentOutside = DateTime.Now - appExitTime;
                 CurrEnergy += (int)(timeSpentOutside.TotalSeconds / (MinsForEnergy * 60)) * EnergyPerTick;
-                if (CurrEnergy >= MaxEnergy)
-                {
-                    CurrEnergy = MaxEnergy;
-                }
+                BalanceEnergy();
                 _energyTextUpdated.UpdateText();
             }
             coins = PlayerPrefs.GetInt("AppExitCoins");
@@ -143,5 +137,17 @@ public class CurrencyManager : MonoBehaviour
     public int GetCoins()
     {
         return coins;
+    }
+
+    public void BalanceEnergy()
+    {
+        if (CurrEnergy >= MaxEnergy)
+        {
+            CurrEnergy = MaxEnergy;
+        }
+        if(CurrEnergy < 0)
+        {
+            CurrEnergy = 0;
+        }
     }
 }
