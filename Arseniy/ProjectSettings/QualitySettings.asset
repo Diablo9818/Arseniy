@@ -224,9 +224,16 @@ QualitySettings:
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
     Android: 2
+<<<<<<< Updated upstream
     Lumin: 5
     GameCoreScarlett: 5
     GameCoreXboxOne: 5
+=======
+    CloudRendering: 5
+    GameCoreScarlett: 5
+    GameCoreXboxOne: 5
+    Lumin: 5
+>>>>>>> Stashed changes
     Nintendo Switch: 5
     PS4: 5
     PS5: 5

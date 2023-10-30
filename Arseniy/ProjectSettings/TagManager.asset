@@ -3,6 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< Updated upstream
   tags:
   - Projectile
   - Fire
@@ -18,6 +19,9 @@ TagManager:
   - StoneEnemy
   - InFront
   - Rock
+=======
+  tags: []
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
@@ -25,8 +29,13 @@ TagManager:
   - 
   - Water
   - UI
+<<<<<<< Updated upstream
   - IgnoredColliderLayer
   - EffectorObjects
+=======
+  - 
+  - 
+>>>>>>> Stashed changes
   - 
   - 
   - 
@@ -52,9 +61,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+<<<<<<< Updated upstream
   - name: UI
     uniqueID: 2169254757
     locked: 0
+=======
+>>>>>>> Stashed changes
   - name: Default
     uniqueID: 0
     locked: 0

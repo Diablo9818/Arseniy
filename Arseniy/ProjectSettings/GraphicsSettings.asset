@@ -62,3 +62,8 @@ GraphicsSettings:
   m_LightsUseColorTemperature: 0
   m_DefaultRenderingLayerMask: 1
   m_LogWhenShaderIsCompiled: 0
+<<<<<<< Updated upstream
+=======
+  m_CameraRelativeLightCulling: 0
+  m_CameraRelativeShadowCulling: 0
+>>>>>>> Stashed changes
