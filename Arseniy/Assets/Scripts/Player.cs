@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
 
         activeGun = midGun;
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Player.cs
         if (Instance == null)
         {
             Instance = this;
@@ -48,6 +49,16 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+=======
+        WeaponUseMetric = DateTime.Now;
+
+        topGunObj.GetComponent<Mortar>().SetDamage(upgradesMailman.MortarDamage, upgradesMailman.MortarDamageLevel);
+        midGunObj.GetComponent<Crossbow>().SetDamge(upgradesMailman.CrossbowDamage, upgradesMailman.CrossbowDamageLevel);
+        botGunObj.GetComponent<FireGun>().SetUpgrades(upgradesMailman.FlamethrowerDamage, upgradesMailman.FlamethrowerDamageLevel);
+        CheckBallistaSkill(upgradesMailman.isCrossbowAbilityBought);
+        CheckFiregunSkill(upgradesMailman.isFireGunAbilityBought);
+        CheckMortarSkill(upgradesMailman.isMortarAbilityBought);
+>>>>>>> Stashed changes:Assets/Scripts/Player.cs
     }
 
     private void Start()

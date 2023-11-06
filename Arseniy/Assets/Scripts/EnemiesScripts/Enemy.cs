@@ -197,4 +197,14 @@ public abstract class Enemy : MonoBehaviour
     {
         return weight;
     }
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/Enemy.cs
+=======
+    public void IncreasePower()
+    {
+        maxHealth += 25 * (TempSpawner.WaveNumber - 1);
+        damage += 25 * (TempSpawner.WaveNumber - 1);
+
+        Debug.Log("Power Increased");
+    }
+>>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/Enemy.cs
 }

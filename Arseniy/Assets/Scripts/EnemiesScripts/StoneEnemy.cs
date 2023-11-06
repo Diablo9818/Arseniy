@@ -77,9 +77,17 @@ public class StoneEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/StoneEnemy.cs
             enemySpawner.DecreaseEnemiesCount(enemySpawner.golemEnemyNumber);
             enemySpawner.GolemUnspawned();
             enemySpawner.IncreaseEnemyPower();
+=======
+            var tempSpawner = FindObjectOfType<TempSpawner>();
+            tempSpawner.DecreaseEnemiesCount(tempSpawner.golemEnemyNumber);
+            tempSpawner.GolemUnspawned();
+            tempSpawner.IncreaseKilledEnemyCount();
+            tempSpawner.NextWave();
+>>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/StoneEnemy.cs
             once = false;
         }
 

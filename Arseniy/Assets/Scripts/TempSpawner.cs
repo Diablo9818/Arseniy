@@ -18,9 +18,8 @@ public class TempSpawner : MonoBehaviour
     [SerializeField] public int shieldEnemyNumber { get; private set; } = 3;
     [SerializeField] public int golemEnemyNumber { get; private set; } = 4;
 
-    [SerializeField] private int fastEnemiesCount;
-    [SerializeField] private int flyingEnemiesCount;
-    [SerializeField] private int shieldEnemiesCount;
+    [SerializeField] private int WaveEnemiesAmount;
+    private int currWaveEnemiesAmount;
     [SerializeField] private int golemEnemiesCount;
 
     [SerializeField] private float _secondsBetweenSpawn;
@@ -29,6 +28,17 @@ public class TempSpawner : MonoBehaviour
     private float nextSpawnTime = 10f;
     private float _elapsedTime = 0;
     private bool isGolemSpawned = false;
+
+    public static int WaveNumber;
+
+    private void Awake()
+    {
+       int TempWave = PlayerPrefs.GetInt("SavedWave", 1);
+        if(TempWave != 1)
+        {
+
+        }
+    }
 
     private void Start()
     {
@@ -43,33 +53,33 @@ public class TempSpawner : MonoBehaviour
         {
             if (currentEnemies < maxEnemies)
             {
-                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && shieldEnemiesCount >= 3 && !isGolemSpawned)
+                int EnemyRandom = Random.Range(1, 10);
+
+                if (currWaveEnemiesAmount >= WaveEnemiesAmount && !isGolemSpawned)
                 {
                     SpawnEnemy("StoneEnemy", forBigMinY, forBigMaxY);
                     isGolemSpawned = true;
                     currentEnemies += golemEnemyNumber;
                     _elapsedTime = 0;
 
-                    fastEnemiesCount = 0;
-                    flyingEnemiesCount = 0;
-                    shieldEnemiesCount = 0;
+                    currWaveEnemiesAmount = 0;
                 }
 
-                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && !isGolemSpawned)
+                if (EnemyRandom == 9)
                 {
                     SpawnEnemy("Enemy With Shield", forBigMinY, forBigMaxY);
                     currentEnemies += shieldEnemyNumber;
                     _elapsedTime = 0;
                 }
 
-                if (fastEnemiesCount >= 5 && !isGolemSpawned)
+                if (EnemyRandom > 5 && EnemyRandom < 9)
                 {
                     SpawnEnemy("FlyingEnemy", forSmallMinY, forSmallMaxY);
                     currentEnemies += flyingEnemyNumber;
                     _elapsedTime = 0;
                 }
 
-                if (!isGolemSpawned)
+                if (EnemyRandom <= 5)
                 {
                     SpawnEnemy("Fast Enemy", forSmallMinY, forSmallMaxY);
                     currentEnemies += fastEnemyNumber;
@@ -77,6 +87,28 @@ public class TempSpawner : MonoBehaviour
                 }
             }
         }
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/TempSpawner.cs
+=======
+
+        if(enemyKillCount >= enemiesKillCountToOpenPanel)
+        {
+            ShowAbilityPanel();
+            enemyKillCount = 0;
+        }
+    }
+
+    public void IncreaseKilledEnemyCount()
+    {
+        enemyKillCount++;
+        currWaveEnemiesAmount++;
+    }
+
+    public void ShowAbilityPanel()
+    {
+        panel.gameObject.SetActive(true);
+        Time.timeScale = 0;
+        Debug.Log("Ready");
+>>>>>>> Stashed changes:Assets/Scripts/TempSpawner.cs
     }
 
     public void IncreaseEnemyPower()
@@ -86,25 +118,9 @@ public class TempSpawner : MonoBehaviour
             enemy.IncreasePower();
         }
     }
-
-    public void KilledFastEnemiesIncrease()
-    {
-        fastEnemiesCount++;
-    }
-
     public void GolemUnspawned()
     {
         isGolemSpawned = false;
-    }
-
-    public void KilledFlyingEnemiesIncrease()
-    {
-        flyingEnemiesCount++;
-    }
-    
-    public void KilledShieldEnemiesIncrease()
-    {
-        shieldEnemiesCount++;
     }
 
     public void DecreaseEnemiesCount(int enemyNumber)
@@ -129,7 +145,20 @@ public class TempSpawner : MonoBehaviour
                 return prefab.gameObject;
             }
         }
-
         return null;
+    }
+
+    public void NextWave()
+    {
+        WaveNumber++;
+        IncreaseEnemyPower();
+        if(WaveNumber % 5 == 0)
+        {
+            int TempWave = PlayerPrefs.GetInt("SavedWave");
+            if (TempWave != 1)
+            {
+                PlayerPrefs.SetInt("SavedWave", ++TempWave);
+            }
+        }
     }
 }

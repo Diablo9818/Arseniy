@@ -32,22 +32,7 @@ public class Mortar : Weapon
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite defaultSprite;
     [SerializeField] Sprite ReloadingSprite;
-
-    [Header("----------UPGRADING----------")]
-    [SerializeField] private DamageLevel currentDamageLevel;
-    [SerializeField] private float mortarDamageLevel1;
-    [SerializeField] private float mortarDamageLevel2;
-    [SerializeField] private float mortarDamageLevel3;
-    [SerializeField] private float mortarDamageLevel4;
-
-    public enum DamageLevel
-    {
-        Level1 = 1,
-        Level2 = 2,
-        Level3 = 3,
-        Level4 = 4
-    }
-
+    [SerializeField] int currDamageLevel;
 
     bool isSuperPowerActivated = false;
 
@@ -116,8 +101,6 @@ public class Mortar : Weapon
             isSuperPowerActivated = false;
             StartCoroutine(Cooldown());
         }
-
-        HandleUpgrading();
     }
 
     public void ActivatePower()
@@ -172,13 +155,14 @@ public class Mortar : Weapon
         return coolDownTime;
     }
 
-    public void SetDamage(float newDamage)
+    public void SetDamageLevel(int newLevel)
     {
-        projectileDamage = newDamage;
+        currDamageLevel = newLevel;
     }
 
-    private void HandleUpgrading()
+    public void SetDamage(float newDamage, int newLevel)
     {
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/Mortar.cs
         switch (currentDamageLevel) {
             case DamageLevel.Level1:
                 projectileDamage = mortarDamageLevel1;
@@ -193,17 +177,27 @@ public class Mortar : Weapon
                 projectileDamage = mortarDamageLevel4;
                 break;
         }
+=======
+        projectileDamage = newDamage;
+        currDamageLevel = newLevel;
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/Mortar.cs
     }
 
     public void UpgradeDamageLevel()
     {
-        if (currentDamageLevel == DamageLevel.Level4) return;
-
-        currentDamageLevel++;
+        projectileDamage += projectileDamage * 0.25F * currDamageLevel;
+        currDamageLevel++;
     }
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/Mortar.cs
     public DamageLevel GetCurrentDamageLevel()
     {
         return currentDamageLevel;
+=======
+
+    public int GetCurrentDamageLevel()
+    {
+        return currDamageLevel;
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/Mortar.cs
     }
 
     public float GetCurrentDamage()

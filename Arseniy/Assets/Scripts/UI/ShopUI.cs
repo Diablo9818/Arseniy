@@ -31,30 +31,15 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private int firegunAbilityPrice;
     [SerializeField] private int crossbowAbilityPrice;
     [Space(5)]
-    private int firegunDamagePrice;
-    [SerializeField] private int firegunDamageLevel2;
-    [SerializeField] private int firegunDamageLevel3;
-    [SerializeField] private int firegunDamageLevel4;
+    [SerializeField] private int firegunDamagePrice;
     [Space(5)]
-    private int firegunDotDurationPrice;
-    [SerializeField] private int firegunDotDurationLevel2;
-    [SerializeField] private int firegunDotDurationLevel3;
-    [SerializeField] private int firegunDotDurationLevel4;
+    [SerializeField] private int firegunDotDurationPrice;
     [Space(5)]
-    private int firegunDotDamagePrice;
-    [SerializeField] private int firegunDotDamageLevel2;
-    [SerializeField] private int firegunDotDamageLevel3;
-    [SerializeField] private int firegunDotDamageLevel4;
+    [SerializeField] private int firegunDotDamagePrice;
     [Space(10)]
-    private int crossbowDamagePrice;
-    [SerializeField] private int crossbowDamageLevel2;
-    [SerializeField] private int crossbowDamageLevel3;
-    [SerializeField] private int crossbowDamageLevel4;
+    [SerializeField] private int crossbowDamagePrice;
     [Space(10)]
-    private int mortarDamagePrice;
-    [SerializeField] private int mortarDamageLevel2;
-    [SerializeField] private int mortarDamageLevel3;
-    [SerializeField] private int mortarDamageLevel4;
+    [SerializeField] private int mortarDamagePrice;
 
 
     [Header("----------FIREGUN----------")]
@@ -82,6 +67,19 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI upgradeMortarDamagePriceText;
 
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/UI/ShopUI.cs
+=======
+    private void Awake()
+    {
+        _currencyManager = FindObjectOfType<CurrencyManager>();
+
+        mortar.SetDamageLevel(upgradesMailman.MortarDamageLevel);
+        crossbow.SetDamageLevel(upgradesMailman.CrossbowDamageLevel);
+        firegun.SetUpgrades(upgradesMailman.FlamethrowerDamageLevel);
+
+        UpdateAllButtons();
+    }
+>>>>>>> Stashed changes:Assets/Scripts/UI/ShopUI.cs
 
     private void OnEnable()
     {
@@ -104,6 +102,7 @@ public class ShopUI : MonoBehaviour
             TryToBuyAbility(Player.Weapon.Crossbow);
         });
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/UI/ShopUI.cs
         upgradeFiregunDamageButton.onClick.AddListener(() => {
             if(Player.Instance.GetCoins() >= firegunDamagePrice) {
                 Player.Instance.SpendCoins(firegunDamagePrice);
@@ -127,22 +126,52 @@ public class ShopUI : MonoBehaviour
                 Player.Instance.SpendCoins(firegunDotDamagePrice);
                 firegun.UpgradeDotDamageLevel();
             } else {
+=======
+        upgradeFiregunDamageButton.onClick.AddListener(() =>
+        {
+            if (_currencyManager.GetCoins() >= firegunDamagePrice)
+            {
+                _currencyManager.SpendCoins(firegunDamagePrice);
+                firegunDamagePrice += firegun.GetCurrentDamageLevel() * 2;
+                firegun.UpgradeDamage();
+            }
+            else
+            {
+>>>>>>> Stashed changes:Assets/Scripts/UI/ShopUI.cs
                 Debug.Log("Not enough money");
             }
         });
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/UI/ShopUI.cs
         upgradeCrossbowDamageButton.onClick.AddListener(() => {
             if (Player.Instance.GetCoins() >= crossbowDamagePrice) {
                 Player.Instance.SpendCoins(crossbowDamagePrice);
+=======
+        upgradeCrossbowDamageButton.onClick.AddListener(() =>
+        {
+            if (_currencyManager.GetCoins() >= crossbowDamagePrice)
+            {
+                _currencyManager.SpendCoins(crossbowDamagePrice);
+                crossbowDamagePrice += crossbow.GetCurrentDamageLevel() * 2;
+>>>>>>> Stashed changes:Assets/Scripts/UI/ShopUI.cs
                 crossbow.UpgradeDamageLevel();
             } else {
                 Debug.Log("Not enough money");
             }
         });
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/UI/ShopUI.cs
         upgradeMortarDamageButton.onClick.AddListener(() => {
             if (Player.Instance.GetCoins() >= mortarDamagePrice) {
                 Player.Instance.SpendCoins(mortarDamagePrice);
+=======
+        upgradeMortarDamageButton.onClick.AddListener(() =>
+        {
+            if (_currencyManager.GetCoins() >= mortarDamagePrice)
+            {
+                _currencyManager.SpendCoins(mortarDamagePrice);
+                mortarDamagePrice += mortar.GetCurrentDamageLevel() * 2;
+>>>>>>> Stashed changes:Assets/Scripts/UI/ShopUI.cs
                 mortar.UpgradeDamageLevel();
             } else {
                 Debug.Log("Not enough money");
@@ -228,6 +257,7 @@ public class ShopUI : MonoBehaviour
 
         upgradeMortarDamageText.text = $"Базовая атака: {mortar.GetCurrentDamage()}";
         upgradeMortarDamagePriceText.text = $"{mortarDamagePrice}";
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/UI/ShopUI.cs
 
 
         switch (firegun.GetCurrentDamageLevel()) {
@@ -307,5 +337,14 @@ public class ShopUI : MonoBehaviour
                 //mortarDamagePrice = mortarDamageLevel4;
                 break;
         }
+=======
+    }
+
+    private void OnDisable()
+    {
+        upgradesMailman.CrossbowDamageLevel = crossbow.GetCurrentDamageLevel();
+        upgradesMailman.MortarDamageLevel = mortar.GetCurrentDamageLevel();
+        upgradesMailman.FlamethrowerDamageLevel = firegun.GetCurrentDamageLevel();
+>>>>>>> Stashed changes:Assets/Scripts/UI/ShopUI.cs
     }
 }
