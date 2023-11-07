@@ -1,9 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FiregunAbilityButton : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Button abilityButton;
+    [SerializeField] private Button abilityButton;
     [SerializeField] private FireGun fireGun;
     private float abilityCooldown;
     private bool isCooldown;
@@ -11,13 +14,12 @@ public class FiregunAbilityButton : MonoBehaviour
 
     private void Start()
     {
-        var fireGun = FindObjectOfType<FireGun>();
-        fireGun.OnAbilityAction += FireGun_OnAbilityAction;
+        FireGun.OnAbilityAction += FireGun_OnAbilityAction;
         abilityCooldown = fireGun.GetAbilityCooldown();
         HideCooldownText();
     }
 
-    private void FireGun_OnAbilityAction()
+    private void FireGun_OnAbilityAction(object sender, System.EventArgs e)
     {
         isCooldown = true;
     }

@@ -1,18 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
     public TextMeshProUGUI scoreText;
     public bool isGameActive;
-    public TextMeshProUGUI gameOverText;
-    public UnityEngine.UI.Button RestartButton;
-    public UnityEngine.UI.Button PauseButton;
+    public  TextMeshProUGUI gameOverText;
+    public Button RestartButton;
+    public Button PauseButton;
     public GameObject titleScreen;
     public bool isPaused = false;
     public bool isClicked = false;
     private int score;
+    public GameObject GameOverScreen;
 
     public void UpdateScore(int scoreToAdd)
     {
@@ -25,6 +31,8 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         gameOverText.text = "Game over!\r\n You total score: " + score;
         isGameActive = false;
+        GameOverScreen.SetActive(true);
+
         //RestartButton.gameObject.SetActive(true);
         //PauseButton.gameObject.SetActive(false);
     }

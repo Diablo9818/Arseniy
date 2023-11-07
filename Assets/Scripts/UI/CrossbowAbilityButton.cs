@@ -1,23 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrossbowAbilityButton : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Button abilityButton;
-    private Crossbow crossbow;
+    [SerializeField] private Button abilityButton;
+    [SerializeField] private Crossbow crossbow;
     private float abilityCooldown;
     private bool isCooldown;
     [SerializeField] TextMeshProUGUI cooldownText;
 
     private void Start()
     {
-        crossbow = FindObjectOfType<Crossbow>();
         crossbow.OnAbilityAction += CrossBow_OnAbilityAction;
         abilityCooldown = crossbow.GetAbilityCooldown();
         HideCooldownText();
     }
 
-    private void CrossBow_OnAbilityAction()
+    private void CrossBow_OnAbilityAction(object sender, System.EventArgs e)
     {
         isCooldown = true;
     }
