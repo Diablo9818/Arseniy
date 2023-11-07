@@ -1,43 +1,38 @@
-using UnityEngine;
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEditor;
+using UnityEngine;
+using static Player;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private UpgradesMailmanSO upgradesMailman;
-
-    [SerializeField] private GameObject crossBowAbility;
-    [SerializeField] private GameObject firegunAbility;
-    [SerializeField] private GameObject mortarAbility;
-
     public enum Weapon { Mortar = 1, Crossbow = 0, FireGun = -1 };
 
     [SerializeField] public Weapon activeGun;
 
-     Weapon topGun;
-     Weapon midGun;
-     Weapon botGun;
+    public static Player Instance;
 
-     public GameObject topGunObj;
-     public GameObject midGunObj;
-     public GameObject botGunObj;
+
+
+    static Weapon topGun;
+    static Weapon midGun;
+    static Weapon botGun;
+
+     public static GameObject topGunObj;
+     public static GameObject midGunObj;
+     public static GameObject botGunObj;
+
+    [SerializeField] private int coins;
 
     private bool hasFiregunAbility;
     private bool hasCrossbowAbility;
     private bool hasMortarAbility;
 
-    private DateTime WeaponUseMetric;
-
-    private void Awake()
+    private void Awake() //singleton
     {
-        crossBowAbility.SetActive(false);
-        firegunAbility.SetActive(false);
-        mortarAbility.SetActive(false);
-
-        topGunObj = FindObjectOfType<Mortar>().gameObject;
-        midGunObj = FindObjectOfType<Crossbow>().gameObject;
-        botGunObj = FindObjectOfType<FireGun>().gameObject;
+        topGunObj = GameObject.Find("Mortar");
+        midGunObj = GameObject.Find("Crossbow");
+        botGunObj = GameObject.Find("FireGun");
 
         topGun = Weapon.Mortar;
         midGun = Weapon.Crossbow;
@@ -45,24 +40,45 @@ public class Player : MonoBehaviour
 
         activeGun = midGun;
 
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Player.cs
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+=======
         WeaponUseMetric = DateTime.Now;
 
-        topGunObj.GetComponent<Mortar>().SetDamageLevel(upgradesMailman.MortarDamageLevel);
-        midGunObj.GetComponent<Crossbow>().SetDamageLevel(upgradesMailman.CrossbowDamageLevel);
-        botGunObj.GetComponent<FireGun>().SetUpgradeLevel(upgradesMailman.FlamethrowerDamageLevel, upgradesMailman.FlamethrowerDotDamageLevel, upgradesMailman.FlamethrowerDotDurationLevel);
+        topGunObj.GetComponent<Mortar>().SetDamage(upgradesMailman.MortarDamage, upgradesMailman.MortarDamageLevel);
+        midGunObj.GetComponent<Crossbow>().SetDamge(upgradesMailman.CrossbowDamage, upgradesMailman.CrossbowDamageLevel);
+        botGunObj.GetComponent<FireGun>().SetUpgrades(upgradesMailman.FlamethrowerDamage, upgradesMailman.FlamethrowerDamageLevel);
         CheckBallistaSkill(upgradesMailman.isCrossbowAbilityBought);
         CheckFiregunSkill(upgradesMailman.isFireGunAbilityBought);
         CheckMortarSkill(upgradesMailman.isMortarAbilityBought);
+>>>>>>> Stashed changes:Assets/Scripts/Player.cs
     }
 
     private void Start()
     {
+        
+
         SwipeDetection.OnSwipeEvent += SwapWeapon;
+        
+
+        //Debug.Log(toMortar);
+        //Debug.Log(toCrossbow);
+        //Debug.Log(toThirdWeapon);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
     {
-        activeGun = midGun; 
+        activeGun = midGun;
+        
     }
 
     public void CheckAndStopCoroutine(Coroutine coroutine)
@@ -75,14 +91,7 @@ public class Player : MonoBehaviour
 
     private void SwapWeapon(int i)
     {
-        TimeSpan WeaponUseTime = WeaponUseMetric - DateTime.Now;
-        Dictionary<string, object> parameters = new Dictionary<string, object>() { { "time_seconds", WeaponUseTime.TotalSeconds } };
-        AppMetrica.Instance.ReportEvent(activeGun + "_use_time", parameters);
-        AppMetrica.Instance.SendEventsBuffer();
-
-        WeaponUseMetric = DateTime.Now;
-
-        if (i == 1) //SwipeUP
+        if(i == 1) //SwipeUP
         {
             //Changing WEAPON
             Weapon bridge;
@@ -128,18 +137,22 @@ public class Player : MonoBehaviour
             botGunObj = midGunObj;
             midGunObj = topGunObj;
             topGunObj = bridgeObj;
+
         }
     }
 
     public bool CheckAbility(Weapon weapon)
     {
-        return weapon switch
-        {
-            Weapon.FireGun => hasFiregunAbility,
-            Weapon.Crossbow => hasCrossbowAbility,
-            Weapon.Mortar => hasMortarAbility,
-            _ => false,
-        };
+        switch (weapon) {
+            case Weapon.FireGun:
+                return hasFiregunAbility;
+            case Weapon.Crossbow:
+                return hasCrossbowAbility;
+            case Weapon.Mortar:
+                return hasMortarAbility;
+            default: 
+                return false;
+        }
     }
 
     public void ActivateAbility(Weapon weapon)
@@ -157,21 +170,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CheckBallistaSkill(bool isActive)
+    public void AddCoins(int coinsToAdd)
     {
-        hasCrossbowAbility = isActive;
-        crossBowAbility.SetActive(isActive);
+        coins += coinsToAdd;
+    } 
+
+    public void SpendCoins(int spentCoins)
+    {
+        coins -= spentCoins;
     }
 
-    public void CheckFiregunSkill(bool isActive)
+    public int GetCoins()
     {
-        hasFiregunAbility = isActive;
-        firegunAbility.SetActive(isActive);
+        return coins;
     }
 
-    public void CheckMortarSkill(bool isActive)
-    {
-        hasMortarAbility = isActive;
-        mortarAbility.SetActive(isActive);
-    }
 }

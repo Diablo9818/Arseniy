@@ -1,15 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System;
+using System.Runtime.CompilerServices;
 
 public class Mortar : Weapon
 {
     bool isReloading = false;
 
-    public Action OnAbilityAction;
+    public event EventHandler OnAbilityAction;
 
-    public Action OnMortarShot;
-    public SkillManager skillsManager;
+    public static event EventHandler OnMortarShot;
+
+    GameObject sentProjectile;
     [HideInInspector] public Vector3 target;
 
     [Space]
@@ -19,9 +25,6 @@ public class Mortar : Weapon
     [SerializeField] float reloadTime = 2f;
 
     [SerializeField] GameObject superProjectile;
-    [SerializeField] GameObject smallProjectile;
-    [SerializeField] GameObject BigProjectile;
-
     [SerializeField] float coolDownTime;
     [SerializeField] int superShootsCount = 3;
     [SerializeField] public float superProjectileSpeed = 10f;
@@ -29,28 +32,20 @@ public class Mortar : Weapon
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite defaultSprite;
     [SerializeField] Sprite ReloadingSprite;
-
-    [Header("----------UPGRADING----------")]
-    [SerializeField] private DamageLevel currentDamageLevel;
-    [SerializeField] private float mortarDamageLevel1;
-    [SerializeField] private float mortarDamageLevel2;
-    [SerializeField] private float mortarDamageLevel3;
-    [SerializeField] private float mortarDamageLevel4;
-
-    public enum DamageLevel
-    {
-        Level1 = 1,
-        Level2 = 2,
-        Level3 = 3,
-        Level4 = 4
-    }
-
+    [SerializeField] int currDamageLevel;
 
     bool isSuperPowerActivated = false;
+
+    public static void ResetStaticData()
+    {
+        OnMortarShot = null;
+    }
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        ResetStaticData();
     }
 
     public override void Aim()
@@ -63,7 +58,7 @@ public class Mortar : Weapon
 
         transform.eulerAngles = new Vector3(0, 0, Mathf.Clamp(angle, -weaponRotationClamp, weaponRotationClamp));
     }
-
+    
     private void Update()
     {
         if (playerScript.activeGun == Player.Weapon.Mortar)
@@ -96,10 +91,8 @@ public class Mortar : Weapon
                 CrosshairHide();
             }
 
-
-        }
-        else
-        {
+            
+        } else {
             abilityButtonUI.transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
@@ -108,8 +101,6 @@ public class Mortar : Weapon
             isSuperPowerActivated = false;
             StartCoroutine(Cooldown());
         }
-
-        HandleUpgrading();
     }
 
     public void ActivatePower()
@@ -119,44 +110,29 @@ public class Mortar : Weapon
 
     public override void Shoot()
     {
-        if (isReloading)
-        {
-            return;
-        }
-
-        if (skillsManager.smallYadroEnable)
-        {
-            GameObject.Instantiate(smallProjectile, projectileSpawnerTransform.position, transform.rotation);
-            isReloading = true;
-        }
-        else if (skillsManager.bigYadroEnable)
-        {
-            GameObject.Instantiate(BigProjectile, projectileSpawnerTransform.position, transform.rotation);
-            isReloading = true;
-        }
-        else
+        if (!isReloading)
         {
             GameObject.Instantiate(projectile, projectileSpawnerTransform.position, transform.rotation);
             isReloading = true;
+
+            OnMortarShot?.Invoke(this, EventArgs.Empty);
+
+            spriteRenderer.sprite = ReloadingSprite;
+            StartCoroutine(Reload());
         }
-
-        OnMortarShot?.Invoke();
-
-        spriteRenderer.sprite = ReloadingSprite;
-        StartCoroutine(Reload());
     }
 
-    public void SuperShoot()
+    public  void SuperShoot()
     {
         if (!isReloading)
         {
-            OnAbilityAction?.Invoke();
+            OnAbilityAction?.Invoke(this, EventArgs.Empty);
             GameObject.Instantiate(superProjectile, projectileSpawnerTransform.position, transform.rotation);
             isReloading = true;
             superShootsCount--;
             StartCoroutine(Reload());
 
-            OnMortarShot?.Invoke();
+            OnMortarShot?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -179,15 +155,15 @@ public class Mortar : Weapon
         return coolDownTime;
     }
 
-    public void SetDamage(float newDamage)
+    public void SetDamageLevel(int newLevel)
     {
-        projectileDamage = newDamage;
+        currDamageLevel = newLevel;
     }
 
-    private void HandleUpgrading()
+    public void SetDamage(float newDamage, int newLevel)
     {
-        switch (currentDamageLevel)
-        {
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/Mortar.cs
+        switch (currentDamageLevel) {
             case DamageLevel.Level1:
                 projectileDamage = mortarDamageLevel1;
                 break;
@@ -201,23 +177,27 @@ public class Mortar : Weapon
                 projectileDamage = mortarDamageLevel4;
                 break;
         }
+=======
+        projectileDamage = newDamage;
+        currDamageLevel = newLevel;
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/Mortar.cs
     }
 
     public void UpgradeDamageLevel()
     {
-        if (currentDamageLevel == DamageLevel.Level4) return;
-
-        currentDamageLevel++;
+        projectileDamage += projectileDamage * 0.25F * currDamageLevel;
+        currDamageLevel++;
     }
-
-    public void SetDamageLevel(DamageLevel level)
-    {
-        currentDamageLevel = level;
-    }
-
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/Mortar.cs
     public DamageLevel GetCurrentDamageLevel()
     {
         return currentDamageLevel;
+=======
+
+    public int GetCurrentDamageLevel()
+    {
+        return currDamageLevel;
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/Mortar.cs
     }
 
     public float GetCurrentDamage()

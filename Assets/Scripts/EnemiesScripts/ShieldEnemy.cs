@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShieldEnemy : Enemy
 {
@@ -84,10 +87,14 @@ public class ShieldEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/ShieldEnemy.cs
+            enemySpawner.DecreaseEnemiesCount(enemySpawner.shieldEnemyNumber);
+            enemySpawner.KilledShieldEnemiesIncrease();
+=======
             var tempSpawner = FindObjectOfType<TempSpawner>();
             tempSpawner.DecreaseEnemiesCount(tempSpawner.shieldEnemyNumber);
-            tempSpawner.KilledShieldEnemiesIncrease();
             tempSpawner.IncreaseKilledEnemyCount();
+>>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/ShieldEnemy.cs
             once = false;
         }
 

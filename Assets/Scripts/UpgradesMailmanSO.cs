@@ -3,15 +3,13 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class UpgradesMailmanSO : ScriptableObject
 {
-    public FireGun.DamageLevel FlamethrowerDamageLevel;
-    public FireGun.DotDamageLevel FlamethrowerDotDamageLevel;
-    public FireGun.DotDurationLevel FlamethrowerDotDurationLevel;
-
-    public Crossbow.DamageLevel CrossbowDamageLevel;
-
-    public Mortar.DamageLevel MortarDamageLevel;
-
+    public float FlamethrowerDamage;
+    public float CrossbowDamage;
+    public float MortarDamage;
     public bool isFireGunAbilityBought;
     public bool isCrossbowAbilityBought;
     public bool isMortarAbilityBought;
+    public int FlamethrowerDamageLevel;
+    public int CrossbowDamageLevel;
+    public int MortarDamageLevel;
 }

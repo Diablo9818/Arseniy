@@ -78,10 +78,14 @@ public class FlyingEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/FlyingEnemy.cs
+            enemySpawner.DecreaseEnemiesCount(enemySpawner.flyingEnemyNumber);
+            enemySpawner.KilledFlyingEnemiesIncrease();
+=======
             var tempSpawner = FindObjectOfType<TempSpawner>();
             tempSpawner.DecreaseEnemiesCount(tempSpawner.flyingEnemyNumber);
-            tempSpawner.KilledFlyingEnemiesIncrease();
             tempSpawner.IncreaseKilledEnemyCount();
+>>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/FlyingEnemy.cs
             once = false;
         }
 

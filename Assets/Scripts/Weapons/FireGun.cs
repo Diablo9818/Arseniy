@@ -1,21 +1,18 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FireGun : Weapon
 {
-    public Action OnAbilityAction;
+    public static event EventHandler OnAbilityAction;
 
-    public Action OnFireGunStartShooting;
-    public Action OnFireGunStopShooting;
-
-    public SkillManager skillsManager;
+    public static event EventHandler OnFireGunStartShooting;
+    public static event EventHandler OnFireGunStopShooting;
 
     [SerializeField] ParticleSystem fireParticle;
-    [SerializeField] ParticleSystem leftFireParticle;
-    [SerializeField] ParticleSystem rightFireParticle;
     [SerializeField] PolygonCollider2D fireCollider;
-    [SerializeField] PolygonCollider2D leftfireCollider;
-    [SerializeField] PolygonCollider2D rightfireCollider;
     private string NAME_OF_WEAPON = "FireGun";
 
     [Header("----------PROPERTIES----------")]
@@ -25,6 +22,7 @@ public class FireGun : Weapon
     [SerializeField] public float dotDamage;
     [SerializeField] public int dotTicks;
     [SerializeField] public float dotDelay;
+    [SerializeField] public float dotDuration;
 
     [Header("----------ULT PROPERTIES----------")]
     [SerializeField] private float percentOfSmallEnemies;
@@ -33,53 +31,16 @@ public class FireGun : Weapon
     [SerializeField] private FiregunAbilityButton abilityButton;
     [SerializeField] private GameObject explosionPrefab;
 
-    [Header("----------UPGRADING----------")]
-    [SerializeField] private DamageLevel currentDamageLevel;
-    [SerializeField] private float firegunDamageLevel1;
-    [SerializeField] private float firegunDamageLevel2;
-    [SerializeField] private float firegunDamageLevel3;
-    [SerializeField] private float firegunDamageLevel4;
-
-    [SerializeField] private DotDurationLevel currentDotDurationLevel;
-    [SerializeField] private int dotDurationLevel1;
-    [SerializeField] private int dotDurationLevel2;
-    [SerializeField] private int dotDurationLevel3;
-    [SerializeField] private int dotDurationLevel4;
-
-    [SerializeField] private DotDamageLevel currentDotDamageLevel;
-    [SerializeField] private float dotDamageLevel1;
-    [SerializeField] private float dotDamageLevel2;
-    [SerializeField] private float dotDamageLevel3;
-    [SerializeField] private float dotDamageLevel4;
-
-    public enum DamageLevel
-    {
-        Level1 = 1,
-        Level2 = 2,
-        Level3 = 3,
-        Level4 = 4
-    }
-
-    public enum DotDurationLevel
-    {
-        Level1 = 1,
-        Level2 = 2,
-        Level3 = 3,
-        Level4 = 4
-    }
-
-    public enum DotDamageLevel
-    {
-        Level1 = 1, 
-        Level2 = 2, 
-        Level3 = 3, 
-        Level4 = 4
-    }
+    [SerializeField] private int currDotDamageLevel;
+    [SerializeField] private int currDotDurationLevel;
+    [SerializeField] private int currDamageLevel;
 
     private void Awake()
     {
         gameObject.AddComponent<AudioSource>();
+        ResetStaticData();
     }
+
 
     public override void Aim()
     {
@@ -89,6 +50,13 @@ public class FireGun : Weapon
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
         transform.eulerAngles = new Vector3(0, 0, Mathf.Clamp(angle, -weaponRotationClamp, weaponRotationClamp));
+    }
+
+    public static void ResetStaticData()
+    {
+        OnFireGunStartShooting = null;
+        OnFireGunStopShooting = null;
+        //OnAbilityAction = null;
     }
 
     private void Update()
@@ -112,46 +80,36 @@ public class FireGun : Weapon
         if (playerScript.activeGun != Player.Weapon.FireGun) {
             StopShoot();
         }
-
-        HandleUpgrading();
     }
 
     public override void Shoot()
     {
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/FireGun.cs
+=======
         if (skillsManager.fireGunleftFireEnable)
         {
             leftFireParticle.Play();
             leftfireCollider.enabled = true;
         }
-        if(skillsManager.fireGunrightFireEnable)
+        if (skillsManager.fireGunrightFireEnable)
         {
             rightFireParticle.Play();
             rightfireCollider.enabled = true;
         }
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/FireGun.cs
 
         fireParticle.Play();
         fireCollider.enabled = true;
 
-        OnFireGunStartShooting?.Invoke();
+        OnFireGunStartShooting?.Invoke(this, EventArgs.Empty);
     }
 
     public void StopShoot()
     {
-        if (skillsManager.fireGunleftFireEnable)
-        {
-            leftFireParticle.Stop();
-            leftfireCollider.enabled = false;
-        }
-        if (skillsManager.fireGunrightFireEnable)
-        {
-            rightFireParticle.Stop();
-            rightfireCollider.enabled = false;
-        }
-
         fireParticle.Stop();
         fireCollider.enabled = false;
 
-        OnFireGunStopShooting?.Invoke();
+        OnFireGunStopShooting?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -180,7 +138,7 @@ public class FireGun : Weapon
     {
         if (playerScript.activeGun == Player.Weapon.FireGun) {
 
-            OnAbilityAction?.Invoke();
+            OnAbilityAction?.Invoke(this, EventArgs.Empty);
             Enemy[] enemies = FindObjectsOfType<Enemy>();
             foreach (Enemy enemy in enemies) {
                 if (enemy.GetComponent<ShieldEnemy>() != null || enemy.GetComponent<StoneEnemy>() != null) {
@@ -196,10 +154,9 @@ public class FireGun : Weapon
 
             Vector3 explosionPosition = new Vector3(2.5f, 0.25f, 0f);
             Instantiate(explosionPrefab, explosionPosition, Quaternion.identity);
-
-            
         }
     }
+<<<<<<< Updated upstream:Arseniy/Assets/Scripts/Weapons/FireGun.cs
 
     private void HandleUpgrading()
     {
@@ -249,52 +206,43 @@ public class FireGun : Weapon
         }
     }
 
-    public void SetUpgradeLevel(DamageLevel DL, DotDamageLevel DDL, DotDurationLevel DOTDL)
-    {
-        currentDamageLevel = DL;
-        currentDotDamageLevel = DDL;
-        currentDotDurationLevel = DOTDL;
-    }
-
+=======
+>>>>>>> Stashed changes:Assets/Scripts/Weapons/FireGun.cs
     public float GetAbilityCooldown()
     {
         return abilityCooldown;
     }
 
-    public void UpgradeDamageLevel()
+    public void SetUpgrades(float Damage, int DamageLevel)
     {
-        if (currentDamageLevel == DamageLevel.Level4) return;
-
-        currentDamageLevel++;
+        damage = Damage;
+        dotDamage = damage * 0.05F;
+        currDamageLevel = DamageLevel;
+    }
+    public void SetUpgrades(int DamageLevel)
+    {
+        currDamageLevel = DamageLevel;
     }
 
-    public void UpgradeDotDurationLevel()
-    {
-        if (currentDotDurationLevel == DotDurationLevel.Level4) return;
 
-        currentDotDurationLevel++;
+    public void UpgradeDamage()
+    {
+        damage += damage * 0.25F * currDamageLevel;
+        dotDamage = damage * 0.05F;
+        currDotDamageLevel++;
     }
 
-    public void UpgradeDotDamageLevel()
+    public int GetCurrentDotDurationLevel()
     {
-        if (currentDotDamageLevel == DotDamageLevel.Level4) return;
-
-        currentDotDamageLevel++;
+        return currDotDurationLevel;
     }
-
-    public DamageLevel GetCurrentDamageLevel()
+    public int GetCurrentDamageLevel()
     {
-        return currentDamageLevel;
+        return currDamageLevel;
     }
-
-    public DotDamageLevel GetCurrentDotDamageLevel()
+    public int GetCurrentDotDamageLevel()
     {
-        return currentDotDamageLevel;
-    }
-
-    public DotDurationLevel GetCurrentDotDurationLevel()
-    {
-        return currentDotDurationLevel;
+        return currDotDamageLevel;
     }
 
     public float GetCurrentDamage()
@@ -302,9 +250,9 @@ public class FireGun : Weapon
         return damage;
     }
 
-    public int GetCurrentDotDuration()
+    public float GetCurrentDotDuration()
     {
-        return dotTicks;
+        return dotDuration;
     }
 
     public float GetCurrentDotDamage()
