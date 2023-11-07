@@ -25,11 +25,7 @@ public class FastEnemy : Enemy
 
         if (once)
         {
-<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/FastEnemy.cs
-            enemySpawner.KilledFastEnemiesIncrease();
-=======
             var tempSpawner = FindObjectOfType<TempSpawner>();
->>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/FastEnemy.cs
             gameManager.UpdateScore(score);
             enemySpawner.DecreaseEnemiesCount(enemySpawner.fastEnemyNumber);
             once = false;
