@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TempSpawner : MonoBehaviour
 {
@@ -13,13 +14,18 @@ public class TempSpawner : MonoBehaviour
     [SerializeField] private float forBigMaxY = 2.97f;    
     [SerializeField] private float forSmallMinY = -0.27f;
     [SerializeField] private float forSmallMaxY = -1.9f;
+    [SerializeField] private int enemiesKillCountToOpenPanel;
+    public event System.Action<int, int> OnEnemyKillCountChanged;
+
+    [SerializeField] SkillPanel panel;
     [SerializeField] public int fastEnemyNumber { get; private set; } = 1;
     [SerializeField] public int flyingEnemyNumber { get; private set; } = 2;
     [SerializeField] public int shieldEnemyNumber { get; private set; } = 3;
     [SerializeField] public int golemEnemyNumber { get; private set; } = 4;
 
-    [SerializeField] private int WaveEnemiesAmount;
-    private int currWaveEnemiesAmount;
+    [SerializeField] private int fastEnemiesCount;
+    [SerializeField] private int flyingEnemiesCount;
+    [SerializeField] private int shieldEnemiesCount;
     [SerializeField] private int golemEnemiesCount;
 
     [SerializeField] private float _secondsBetweenSpawn;
@@ -28,17 +34,7 @@ public class TempSpawner : MonoBehaviour
     private float nextSpawnTime = 10f;
     private float _elapsedTime = 0;
     private bool isGolemSpawned = false;
-
-    public static int WaveNumber;
-
-    private void Awake()
-    {
-       int TempWave = PlayerPrefs.GetInt("SavedWave", 1);
-        if(TempWave != 1)
-        {
-
-        }
-    }
+    private int enemyKillCount;
 
     private void Start()
     {
@@ -53,33 +49,33 @@ public class TempSpawner : MonoBehaviour
         {
             if (currentEnemies < maxEnemies)
             {
-                int EnemyRandom = Random.Range(1, 10);
-
-                if (currWaveEnemiesAmount >= WaveEnemiesAmount && !isGolemSpawned)
+                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && shieldEnemiesCount >= 3 && !isGolemSpawned)
                 {
                     SpawnEnemy("StoneEnemy", forBigMinY, forBigMaxY);
                     isGolemSpawned = true;
                     currentEnemies += golemEnemyNumber;
                     _elapsedTime = 0;
 
-                    currWaveEnemiesAmount = 0;
+                    fastEnemiesCount = 0;
+                    flyingEnemiesCount = 0;
+                    shieldEnemiesCount = 0;
                 }
 
-                if (EnemyRandom == 9)
+                if (fastEnemiesCount >= 10 && flyingEnemiesCount >= 5 && !isGolemSpawned)
                 {
                     SpawnEnemy("Enemy With Shield", forBigMinY, forBigMaxY);
                     currentEnemies += shieldEnemyNumber;
                     _elapsedTime = 0;
                 }
 
-                if (EnemyRandom > 5 && EnemyRandom < 9)
+                if (fastEnemiesCount >= 5 && !isGolemSpawned)
                 {
                     SpawnEnemy("FlyingEnemy", forSmallMinY, forSmallMaxY);
                     currentEnemies += flyingEnemyNumber;
                     _elapsedTime = 0;
                 }
 
-                if (EnemyRandom <= 5)
+                if (!isGolemSpawned)
                 {
                     SpawnEnemy("Fast Enemy", forSmallMinY, forSmallMaxY);
                     currentEnemies += fastEnemyNumber;
@@ -87,20 +83,21 @@ public class TempSpawner : MonoBehaviour
                 }
             }
         }
-<<<<<<< Updated upstream:Arseniy/Assets/Scripts/TempSpawner.cs
-=======
 
-        if(enemyKillCount >= enemiesKillCountToOpenPanel)
+        if (enemyKillCount >= enemiesKillCountToOpenPanel)
         {
             ShowAbilityPanel();
             enemyKillCount = 0;
         }
+
+        //Debug.Log("enemyKillCount: " + enemyKillCount);
     }
 
     public void IncreaseKilledEnemyCount()
     {
         enemyKillCount++;
-        currWaveEnemiesAmount++;
+
+        OnEnemyKillCountChanged?.Invoke(enemyKillCount, enemiesKillCountToOpenPanel);
     }
 
     public void ShowAbilityPanel()
@@ -108,7 +105,6 @@ public class TempSpawner : MonoBehaviour
         panel.gameObject.SetActive(true);
         Time.timeScale = 0;
         Debug.Log("Ready");
->>>>>>> Stashed changes:Assets/Scripts/TempSpawner.cs
     }
 
     public void IncreaseEnemyPower()
@@ -118,9 +114,25 @@ public class TempSpawner : MonoBehaviour
             enemy.IncreasePower();
         }
     }
+
+    public void KilledFastEnemiesIncrease()
+    {
+        fastEnemiesCount++;
+    }
+
     public void GolemUnspawned()
     {
         isGolemSpawned = false;
+    }
+
+    public void KilledFlyingEnemiesIncrease()
+    {
+        flyingEnemiesCount++;
+    }
+    
+    public void KilledShieldEnemiesIncrease()
+    {
+        shieldEnemiesCount++;
     }
 
     public void DecreaseEnemiesCount(int enemyNumber)
@@ -145,20 +157,7 @@ public class TempSpawner : MonoBehaviour
                 return prefab.gameObject;
             }
         }
-        return null;
-    }
 
-    public void NextWave()
-    {
-        WaveNumber++;
-        IncreaseEnemyPower();
-        if(WaveNumber % 5 == 0)
-        {
-            int TempWave = PlayerPrefs.GetInt("SavedWave");
-            if (TempWave != 1)
-            {
-                PlayerPrefs.SetInt("SavedWave", ++TempWave);
-            }
-        }
+        return null;
     }
 }

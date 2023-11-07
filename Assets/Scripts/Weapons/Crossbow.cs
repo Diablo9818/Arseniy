@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class Crossbow : Weapon
@@ -32,12 +31,26 @@ public class Crossbow : Weapon
 
     bool isReloading = false;
     bool isSuperPowerActivated = false;
-    [SerializeField] private int currDamageLevel;
+
+    [Header("----------CROSSBOW UPGRADING----------")]
+    [SerializeField] private DamageLevel currentDamageLevel;
+    [SerializeField] private float crossbowDamageLevel1;
+    [SerializeField] private float crossbowDamageLevel2;
+    [SerializeField] private float crossbowDamageLevel3;
+    [SerializeField] private float crossbowDamageLevel4;
 
     [SerializeField] private Transform FirstProjectileSpawnerTransform;
     [SerializeField] private Transform SecondProjectileSpawnerTransform;
     [SerializeField] private Transform ThirdProjectileSpawnerTransform;
     [SerializeField] private Transform FourthProjectileSpawnerTransform;
+
+    public enum DamageLevel
+    {
+        Level1 = 1,
+        Level2 = 2,
+        Level3 = 3,
+        Level4 = 4
+    }
 
     private void Awake()
     {
@@ -83,6 +96,8 @@ public class Crossbow : Weapon
             isSuperPowerActivated = false;
             StartCoroutine(Cooldown());
         }
+
+        HandleUpgrading();
     }
 
     public override void Shoot()
@@ -223,30 +238,42 @@ public class Crossbow : Weapon
     {
         return coolDownTime;
     }
-
-    public void SetDamge(float newDamage, int newLevel)
+    public void SetDamage(float newDamage)
     {
         projectileDamage = newDamage;
-        currDamageLevel = newLevel;
+    }
+    private void HandleUpgrading()
+    {
+        switch (currentDamageLevel)
+        {
+            case DamageLevel.Level1:
+                projectileDamage = crossbowDamageLevel1;
+                break;
+            case DamageLevel.Level2:
+                projectileDamage = crossbowDamageLevel2;
+                break;
+            case DamageLevel.Level3:
+                projectileDamage = crossbowDamageLevel3;
+                break;
+            case DamageLevel.Level4:
+                projectileDamage = crossbowDamageLevel4;
+                break;
+        }
     }
 
     public void UpgradeDamageLevel()
     {
-        projectileDamage += projectileDamage * 0.25F * currDamageLevel;
-        currDamageLevel++;
-    }
+        if (currentDamageLevel == DamageLevel.Level4) return;
 
-    public int GetCurrentDamageLevel()
+        currentDamageLevel++;
+    }
+    public DamageLevel GetCurrentDamageLevel()
     {
-        return currDamageLevel;
+        return currentDamageLevel;
     }
 
     public float GetCurrentDamage()
     {
         return projectileDamage;
-    }
-    public void SetDamageLevel(int newLevel)
-    {
-        currDamageLevel = newLevel;
     }
 }

@@ -8,9 +8,9 @@ public class FlyingEnemy : Enemy
 {
     [Header("----------FLY PROPERTIES----------")]
     //[SerializeField] float amplitude = 1f;
-    [SerializeField] int upOrDown;
-    [SerializeField] private float waveSpeed = 1f; // Higher make the wave faster
-    [SerializeField] private float bonusHeight = 1f; // Set higher if you want more wave intensity
+     int upOrDown = 3;
+     private float waveSpeed = 1f; // Higher make the wave faster
+     private float bonusHeight = 1f; // Set higher if you want more wave intensity
 
     private float defoldDamage = 10.842f;
     private float defoldHealth = 30f;
@@ -78,14 +78,10 @@ public class FlyingEnemy : Enemy
         if (once)
         {
             gameManager.UpdateScore(score);
-<<<<<<< Updated upstream:Arseniy/Assets/Scripts/EnemiesScripts/FlyingEnemy.cs
-            enemySpawner.DecreaseEnemiesCount(enemySpawner.flyingEnemyNumber);
-            enemySpawner.KilledFlyingEnemiesIncrease();
-=======
             var tempSpawner = FindObjectOfType<TempSpawner>();
             tempSpawner.DecreaseEnemiesCount(tempSpawner.flyingEnemyNumber);
+            tempSpawner.KilledFlyingEnemiesIncrease();
             tempSpawner.IncreaseKilledEnemyCount();
->>>>>>> Stashed changes:Assets/Scripts/EnemiesScripts/FlyingEnemy.cs
             once = false;
         }
 
